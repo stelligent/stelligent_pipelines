@@ -91,10 +91,10 @@
       "Type":"String",
       "Description":"Unique name for the Dromedary Dynamo DB table"
     },
-    "DromedaryRepo":{
+    "pPipelinesRepo":{
       "Type":"String",
-      "Description":"The Github https address to the public dromedary repository.",
-      "Default":"https://github.com/stelligent/dromedary.git"
+      "Description":"The Github https address to the public stelligent_pipelines repository.",
+      "Default":"https://github.com/stelligent/stelligent_pipelines.git"
     },
     "Branch":{
       "Type":"String",
@@ -1083,15 +1083,15 @@
                 },
                 " ",
                 {
-                  "Ref":"DromedaryRepo"
+                  "Ref":"pPipelinesRepo"
                 },
-                " /opt/dromedary\n",
+                " /opt/pipelines\n",
                 "export AWS_DEFAULT_REGION=",
                 {
                   "Ref":"AWS::Region"
                 },
                 "\n",
-                "cd /opt/dromedary\n",
+                "cd /opt/pipelines\n",
                 "./bin/configure-jenkins.sh ",
                 {
                   "Fn::GetAtt":[

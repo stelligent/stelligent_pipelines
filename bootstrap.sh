@@ -96,7 +96,7 @@ fi
 # refer to it with template-url instead
 aws cloudformation create-stack \
 --stack-name ${STACK_NAME}  \
---template-body file://pipeline/cfn/dromedary-master.json \
+--template-body file://pipeline/cfn/pipeline-master.json \
 --region ${AWS_REGION} \
 --disable-rollback --capabilities="CAPABILITY_IAM" \
 --parameters ParameterKey=KeyName,ParameterValue=${EC2_KEY_PAIR_NAME} \
