@@ -2,17 +2,18 @@
 set -o pipefail
 
 # env variables
-EC2_KEY_PAIR_NAME=xxxx
-HOSTED_ZONE_NAME=xxx.com
-DYNAMODB_TABLE_NAME=xxxxx
-GITHUB_TOKEN=xxxx
-GITHUB_USER=xxxx
-AWS_REGION=xxxx
-DEV_BUCKET=xxxx
-BASE_TEMPLATE_URL=https://s3.amazonaws.com/${DEV_BUCKET}/
-ENABLE_CONFIG=false
-DROMEDARY_BUCKET=xxxx #for example in goldbase it would be:  dromedary-592804526322
-STACK_NAME=DromedaryStack
+
+EC2_KEY_PAIR_NAME=${EC2_KEY_PAIR_NAME:-xxxx}
+HOSTED_ZONE_NAME=${HOSTED_ZONE_NAME:-xxx.com}
+DYNAMODB_TABLE_NAME=${DYNAMODB_TABLE_NAME:-xxxxx}
+GITHUB_TOKEN=${GITHUB_TOKEN:-xxxx}
+GITHUB_USER=${GITHUB_USER:-xxxx}
+AWS_REGION=${AWS_REGION:-us-east-1}
+DEV_BUCKET=${DEV_BUCKET:-xxxx}
+ENABLE_CONFIG=${ENABLE_CONFIG:-false}
+DROMEDARY_BUCKET=${DROMEDARY_BUCKET:-xxxx} #for example in goldbase it would be:  dromedary-592804526322
+STACK_NAME=${STACK_NAME:-DromedaryStack}
+BASE_TEMPLATE_URL="https://s3.amazonaws.com/${DEV_BUCKET}/"
 
 aws s3api create-bucket --bucket ${DEV_BUCKET}
 
