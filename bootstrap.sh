@@ -3,25 +3,46 @@ set -o pipefail
 
 # env variables
 
+# Name of EC2 keypair to use for instances
 EC2_KEY_PAIR_NAME=${EC2_KEY_PAIR_NAME:-xxxx}
+# Domain name (e.g. example.com) that is in a
+# Route53 hosted zone to use for this deployment
 HOSTED_ZONE_NAME=${HOSTED_ZONE_NAME:-xxx.com}
+# DynamoDB table to use for pipeline state storage
 DYNAMODB_TABLE_NAME=${DYNAMODB_TABLE_NAME:-xxxxx}
+# GitHub token and user to use to poll and retrieve
+# application code repository
 GITHUB_TOKEN=${GITHUB_TOKEN:-xxxx}
 GITHUB_USER=${GITHUB_USER:-xxxx}
+# AWS Region to launch pipeline in
+# Region must support
+# * CodePipeline
 AWS_REGION=${AWS_REGION:-us-east-1}
+# S3 Buckeet to create and store pipeline assets
+# such as CloudFormation templates in
 DEV_BUCKET=${DEV_BUCKET:-xxxx}
+# Whether to update AWS Lambda functions with new code
 ENABLE_CONFIG=${ENABLE_CONFIG:-false}
+# S3 bucket for Dromedary application resources
+# XXX remove
 DROMEDARY_BUCKET=${DROMEDARY_BUCKET:-xxxx} #for example in goldbase it would be:  dromedary-592804526322
+# CloudFormation stack name for pipeline
 STACK_NAME=${STACK_NAME:-DromedaryStack}
+# Internally used URL to DEV_BUCKET S3 resources
 BASE_TEMPLATE_URL="https://s3.amazonaws.com/${DEV_BUCKET}/"
 
+# Create $DEV_BUCKET
+# XXX no check for existence
 aws s3api create-bucket --bucket ${DEV_BUCKET}
 
+# Upload all needed cloudformation templates to DEV_BUCKET
+# XXX these templates should have a key prefix like cfn/
 for json in $(ls pipeline/cfn/*.json);
 do
   aws s3 cp ${json} s3://${DEV_BUCKET}/
 done
 
+# Ensure jq utility is installed, if not bail
 which jq
 if [[ $? != 0 ]];
 then
@@ -29,6 +50,9 @@ then
   exit 1
 fi
 
+# Ensure $EC2_KEY_PAIR_NAME exists in EC2. If not, generate a
+# new keypair by that name and store the private key to
+# ${EC2_KEY_PAIR_NAME}.pem
 aws ec2 describe-key-pairs --key-names ${EC2_KEY_PAIR_NAME} --region ${AWS_REGION} | jq '.KeyPairs|length'
 if [[ $? != 0 ]];
 then
@@ -39,6 +63,8 @@ then
                           | ruby -e 'puts STDIN.read.gsub(/"/,"").gsub(/\\n/,"\n")' > ${EC2_KEY_PAIR_NAME}.pem
 fi
 
+# If a hosted zone does not exist that matches the name in
+# $HOSTED_ZONE_NAME, create a new zone
 hosted_zone_count=$(aws route53 list-hosted-zones-by-name --dns-name ${HOSTED_ZONE_NAME} | jq '.HostedZones|length')
 if [[ ${hosted_zone_count} == 0 ]];
 then
@@ -48,6 +74,8 @@ then
                                  --hosted-zone-config Comment="for dromedary hacking"
 fi
 
+# zip up the security rules in test-security-integration/lambda/*
+# and upload to s3://${DROMEDARY_BUCKET}/lambda/
 pushd test-security-integration/lambda
 zip -r config-rules.zip *
 aws s3 cp config-rules.zip s3://${DROMEDARY_BUCKET}/lambda/ --profile ${AWS_PROFILE}
@@ -63,6 +91,9 @@ if [[ "$ENABLE_CONFIG" = "false" ]]; then
     done
 fi
 
+# Launch pipeline-master.json as a new CloudFormation stack
+# XXX pipeline-master.json should be uploaded into S3 already,
+# refer to it with template-url instead
 aws cloudformation create-stack \
 --stack-name ${STACK_NAME}  \
 --template-body file://pipeline/cfn/dromedary-master.json \
