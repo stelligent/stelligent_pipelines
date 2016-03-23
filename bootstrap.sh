@@ -83,7 +83,7 @@ fi
 # and upload to s3://${DROMEDARY_BUCKET}/lambda/
 pushd test-security-integration/lambda
 zip -r config-rules.zip *
-aws s3 cp config-rules.zip s3://${DROMEDARY_BUCKET}/lambda/ --profile ${AWS_PROFILE}
+aws s3 cp config-rules.zip s3://${DROMEDARY_BUCKET}/lambda/
 rm config-rules.zip
 popd
 
