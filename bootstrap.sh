@@ -17,6 +17,8 @@ GITHUB_USER=${GITHUB_USER:-xxxx}
 # AWS Region to launch pipeline in
 # Region must support
 # * CodePipeline
+# * Config Rules
+# * Lambda
 AWS_REGION=${AWS_REGION:-us-east-1}
 # S3 Buckeet to create and store pipeline assets
 # such as CloudFormation templates in
