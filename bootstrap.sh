@@ -38,6 +38,7 @@ BASE_TEMPLATE_URL="https://s3.amazonaws.com/${DEV_BUCKET}/"
 # Create $DEV_BUCKET
 # XXX no check for existence
 aws s3api create-bucket --bucket ${DEV_BUCKET}
+aws s3api create-bucket --bucket ${DROMEDARY_BUCKET}
 
 # Upload all needed cloudformation templates to DEV_BUCKET
 # XXX these templates should have a key prefix like cfn/
