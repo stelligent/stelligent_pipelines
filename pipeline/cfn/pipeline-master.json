@@ -52,6 +52,11 @@
       "Description":"Just the name of the CloudFormation template. Used with BaseTemplateURL.",
       "Default":"zap-instance.json"
     },
+    "pZapAmiId":{
+      "Type":"String",
+      "Description":"AMI ID for ZAP server",
+      "Default":"ami-cdb588a7"
+    },
     "JenkinsCFNTemplateFile":{
       "Type":"String",
       "Description":"Just the name of the CloudFormation template. Used with BaseTemplateURL.",
@@ -1375,6 +1380,9 @@
         "Parameters":{
           "Ec2Key":{
             "Ref":"KeyName"
+          },
+          "pZapAmiId":{
+            "Ref":"pZapAmiId"
           },
           "SubnetId":{
             "Fn::GetAtt":[

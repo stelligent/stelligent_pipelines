@@ -26,6 +26,8 @@ ENABLE_CONFIG=${ENABLE_CONFIG:-false}
 # S3 bucket for Dromedary application resources
 # XXX remove
 DROMEDARY_BUCKET=${DROMEDARY_BUCKET:-xxxx} #for example in goldbase it would be:  dromedary-592804526322
+# AMI ID for launching ZAP server
+ZAP_AMI_ID=${ZAP_AMI_ID:-ami-cdb588a7}
 # CloudFormation stack name for pipeline
 STACK_NAME=${STACK_NAME:-DromedaryStack}
 # Internally used URL to DEV_BUCKET S3 resources
