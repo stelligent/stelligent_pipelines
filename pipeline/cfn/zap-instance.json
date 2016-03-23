@@ -6,6 +6,11 @@
       "Type":"String",
       "Description":"Ec2 key for ssh access"
     },
+    "pZapAmiId":{
+      "Type":"String",
+      "Description":"AMI ID for ZAP server",
+      "Default":"ami-cdb588a7"
+    },
     "SubnetId":{
       "Type":"String",
       "Description":"VPC subnet id in which to place zap"
@@ -87,13 +92,7 @@
       },
       "Properties":{
         "ImageId":{
-          "Fn::FindInMap":[
-            "RegionConfig",
-            {
-              "Ref":"AWS::Region"
-            },
-            "ami"
-          ]
+          "Ref":"pZapAmiId"
         },
         "InstanceType":"t2.micro",
         "IamInstanceProfile":{
