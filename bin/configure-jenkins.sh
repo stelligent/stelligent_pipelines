@@ -31,7 +31,7 @@ my_prod_dns_param="$(aws cloudformation describe-stacks --stack-name $pipeline_s
 prod_dns_param="$MasterStackName$my_prod_dns_param"
 echo "The value of prod_dns_param is $prod_dns_param"
 
-prod_dns="$(echo $prod_dns_param | sed 's/[.]$//')"
+prod_dns=$(echo $prod_dns_param | sed 's/[.]$//')
 
 dromedary_hostname=$(echo $prod_dns | cut -f 1 -d . -s)
 dromedary_domainname=$(echo $prod_dns | sed s/^$dromedary_hostname[.]//)
