@@ -101,6 +101,11 @@
       "Description":"The Github https address to the public stelligent_pipelines repository.",
       "Default":"https://github.com/stelligent/stelligent_pipelines.git"
     },
+    "pPipelinesBranch":{
+      "Type":"String",
+      "Description":"The Github branch the public stelligent_pipelines repository.",
+      "Default":"master"
+    },
     "Branch":{
       "Type":"String",
       "Description":"The Github branch the public dromedary repository.",
@@ -1084,7 +1089,7 @@
                 "yum install -y git\n",
                 "git clone -b ",
                 {
-                  "Ref":"Branch"
+                  "Ref":"pPipelinesBranch"
                 },
                 " ",
                 {
