@@ -14,6 +14,8 @@ DYNAMODB_TABLE_NAME=${DYNAMODB_TABLE_NAME:-xxxxx}
 # application code repository
 GITHUB_TOKEN=${GITHUB_TOKEN:-xxxx}
 GITHUB_USER=${GITHUB_USER:-xxxx}
+# Repository branch to use for CodePipeline
+CPL_REPO_BRANCH=${CPL_REPO_BRANCH:-master}
 # AWS Region to launch pipeline in
 # Region must support
 # * CodePipeline
@@ -106,7 +108,7 @@ aws cloudformation create-stack \
 --disable-rollback --capabilities="CAPABILITY_IAM" \
 --parameters ParameterKey=KeyName,ParameterValue=${EC2_KEY_PAIR_NAME} \
         ParameterKey=pZapAmiId,ParameterValue=${ZAP_AMI_ID} \
-	ParameterKey=Branch,ParameterValue=master \
+	ParameterKey=Branch,ParameterValue=${CPL_REPO_BRANCH} \
 	ParameterKey=BaseTemplateURL,ParameterValue=${BASE_TEMPLATE_URL} \
 	ParameterKey=GitHubUser,ParameterValue=${GITHUB_USER} \
 	ParameterKey=GitHubToken,ParameterValue=${GITHUB_TOKEN} \
