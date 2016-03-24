@@ -34,7 +34,7 @@ echo "The value of prod_dns_param is $prod_dns_param"
 prod_dns=$(echo $prod_dns_param | sed 's/[.]$//')
 
 dromedary_hostname=$(echo $prod_dns | cut -f 1 -d . -s)
-dromedary_domainname=$(echo $prod_dns | sed s/^$dromedary_hostname[.]//)
+dromedary_domainname=$(echo $prod_dns | sed "s/^$dromedary_hostname[.]//")
 
 echo "dromedary_hostname is $dromedary_hostname"
 echo "dromedary_domainname is $dromedary_domainname"
@@ -97,22 +97,22 @@ echo "The value of eni_subnet_id is $eni_subnet_id"
 cp -r $config_dir/* $temp_dir/
 pushd $temp_dir > /dev/null
 for f in */config.xml; do
-    sed s/DromedaryJenkins/$jenkins_custom_action_provider_name/ $f > $f.new && mv $f.new $f
+    sed "s/DromedaryJenkins/$jenkins_custom_action_provider_name/" $f > $f.new && mv $f.new $f
 done
-sed s/S3BUCKET_PLACEHOLDER/$dromedary_s3_bucket/ drom-build/config.xml > drom-build/config.xml.new && mv drom-build/config.xml.new drom-build/config.xml
-sed s/BRANCH_PLACEHOLDER/$dromedary_branch/ job-seed/config.xml > job-seed/config.xml.new && mv job-seed/config.xml.new job-seed/config.xml
-sed s/VPC_PLACEHOLDER/$dromedary_vpc_stack_name/ drom-build/config.xml > drom-build/config.xml.new && mv drom-build/config.xml.new drom-build/config.xml
-sed s/IAM_PLACEHOLDER/$dromedary_iam_stack_name/ drom-build/config.xml > drom-build/config.xml.new && mv drom-build/config.xml.new drom-build/config.xml
-sed s/DDB_PLACEHOLDER/$dromedary_ddb_stack_name/ drom-build/config.xml > drom-build/config.xml.new && mv drom-build/config.xml.new drom-build/config.xml
-sed s/ENI_PLACEHOLDER/$dromedary_eni_stack_name/ drom-build/config.xml > drom-build/config.xml.new && mv drom-build/config.xml.new drom-build/config.xml
-sed s/CONFIG_PLACEHOLDER/$dromedary_config_stack_name/ drom-build/config.xml > drom-build/config.xml.new && mv drom-build/config.xml.new drom-build/config.xml
-sed s/LAMBDACONFIG_PLACEHOLDER/$dromedary_lambdaconfig_stack_name/ drom-build/config.xml > drom-build/config.xml.new && mv drom-build/config.xml.new drom-build/config.xml
-sed s/ZAP_PLACEHOLDER/$ZapStackName/ drom-build/config.xml > drom-build/config.xml.new && mv drom-build/config.xml.new drom-build/config.xml
-sed s/KEY_PLACEHOLDER/$dromedary_ec2_key/ drom-build/config.xml > drom-build/config.xml.new && mv drom-build/config.xml.new drom-build/config.xml
-sed s/HOSTNAME_PLACEHOLDER/$dromedary_hostname/ drom-build/config.xml > drom-build/config.xml.new && mv drom-build/config.xml.new drom-build/config.xml
-sed s/DOMAINNAME_PLACEHOLDER/$dromedary_domainname/ drom-build/config.xml > drom-build/config.xml.new && mv drom-build/config.xml.new drom-build/config.xml
-sed s/ZONE_ID_PLACEHOLDER/$dromedary_zone_id/ drom-build/config.xml > drom-build/config.xml.new && mv drom-build/config.xml.new drom-build/config.xml
-sed s/ACTION_PROVIDER_PLACEHOLDER/$jenkins_custom_action_provider_name/ drom-build/config.xml > drom-build/config.xml.new && mv drom-build/config.xml.new drom-build/config.xml
+sed "s/S3BUCKET_PLACEHOLDER/$dromedary_s3_bucket/" drom-build/config.xml > drom-build/config.xml.new && mv drom-build/config.xml.new drom-build/config.xml
+sed "s/BRANCH_PLACEHOLDER/$dromedary_branch/" job-seed/config.xml > job-seed/config.xml.new && mv job-seed/config.xml.new job-seed/config.xml
+sed "s/VPC_PLACEHOLDER/$dromedary_vpc_stack_name/" drom-build/config.xml > drom-build/config.xml.new && mv drom-build/config.xml.new drom-build/config.xml
+sed "s/IAM_PLACEHOLDER/$dromedary_iam_stack_name/" drom-build/config.xml > drom-build/config.xml.new && mv drom-build/config.xml.new drom-build/config.xml
+sed "s/DDB_PLACEHOLDER/$dromedary_ddb_stack_name/" drom-build/config.xml > drom-build/config.xml.new && mv drom-build/config.xml.new drom-build/config.xml
+sed "s/ENI_PLACEHOLDER/$dromedary_eni_stack_name/" drom-build/config.xml > drom-build/config.xml.new && mv drom-build/config.xml.new drom-build/config.xml
+sed "s/CONFIG_PLACEHOLDER/$dromedary_config_stack_name/" drom-build/config.xml > drom-build/config.xml.new && mv drom-build/config.xml.new drom-build/config.xml
+sed "s/LAMBDACONFIG_PLACEHOLDER/$dromedary_lambdaconfig_stack_name/" drom-build/config.xml > drom-build/config.xml.new && mv drom-build/config.xml.new drom-build/config.xml
+sed "s/ZAP_PLACEHOLDER/$ZapStackName/" drom-build/config.xml > drom-build/config.xml.new && mv drom-build/config.xml.new drom-build/config.xml
+sed "s/KEY_PLACEHOLDER/$dromedary_ec2_key/" drom-build/config.xml > drom-build/config.xml.new && mv drom-build/config.xml.new drom-build/config.xml
+sed "s/HOSTNAME_PLACEHOLDER/$dromedary_hostname/" drom-build/config.xml > drom-build/config.xml.new && mv drom-build/config.xml.new drom-build/config.xml
+sed "s/DOMAINNAME_PLACEHOLDER/$dromedary_domainname/" drom-build/config.xml > drom-build/config.xml.new && mv drom-build/config.xml.new drom-build/config.xml
+sed "s/ZONE_ID_PLACEHOLDER/$dromedary_zone_id/" drom-build/config.xml > drom-build/config.xml.new && mv drom-build/config.xml.new drom-build/config.xml
+sed "s/ACTION_PROVIDER_PLACEHOLDER/$jenkins_custom_action_provider_name/" drom-build/config.xml > drom-build/config.xml.new && mv drom-build/config.xml.new drom-build/config.xml
 
 tar czf job-configs.tgz *
 aws s3 cp job-configs.tgz s3://$dromedary_s3_bucket/$config_tar_path
