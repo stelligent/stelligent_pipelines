@@ -107,8 +107,9 @@ aws cloudformation create-stack \
 --template-body file://pipeline/cfn/pipeline-master.json \
 --region ${AWS_REGION} \
 --disable-rollback --capabilities="CAPABILITY_IAM" \
---parameters ParameterKey=KeyName,ParameterValue=${EC2_KEY_PAIR_NAME} \
-        ParameterKey=pZapAmiId,ParameterValue=${ZAP_AMI_ID} \
+--parameters \
+  ParameterKey=KeyName,ParameterValue=${EC2_KEY_PAIR_NAME} \
+  ParameterKey=pZapAmiId,ParameterValue=${ZAP_AMI_ID} \
 	ParameterKey=Branch,ParameterValue=${APP_REPO_BRANCH} \
 	ParameterKey=BaseTemplateURL,ParameterValue=${BASE_TEMPLATE_URL} \
 	ParameterKey=GitHubUser,ParameterValue=${GITHUB_USER} \
