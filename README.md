@@ -16,7 +16,7 @@ automatic handling of changes to dromedary. It was enhanced
 (being on the consec branch) with security scanning capabilities
 as well.
 
-*NOTE*: this pipeline is still tightly couples with the Dromedary
+*NOTE*: this pipeline is still tightly coupled with the Dromedary
 demo app, and is not immediately suitable for use with other
 applications.
 
