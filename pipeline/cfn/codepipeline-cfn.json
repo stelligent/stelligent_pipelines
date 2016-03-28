@@ -128,7 +128,7 @@
                     }
                   },
                   {
-                    "Name": "PipelineSource"
+                    "Name": "PipelineArtifact"
                   }
                 ],
                 "Name":"Build",
@@ -158,7 +158,7 @@
                     }
                   },
                   {
-                    "Name": "PipelineSource"
+                    "Name": "PipelineArtifact"
                   }
                 ],
                 "Name":"UnitTest",
@@ -186,7 +186,7 @@
                     }
                   },
                   {
-                    "Name": "PipelineSource"
+                    "Name": "PipelineArtifact"
                   }
                 ],
                 "Name":"StaticCodeAnalysis",
@@ -214,7 +214,7 @@
                     }
                   },
                   {
-                    "Name": "PipelineSource"
+                    "Name": "PipelineArtifact"
                   }
                 ],
                 "Name":"SecStaticCodeAnalysis",
