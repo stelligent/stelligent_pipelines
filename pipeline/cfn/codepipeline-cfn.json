@@ -88,6 +88,34 @@
                   }
                 },
                 "RunOrder":1
+              },
+              {
+                "InputArtifacts":[
+
+                ],
+                "Name":"PipelineSource",
+                "ActionTypeId":{
+                  "Category":"Source",
+                  "Owner":"ThirdParty",
+                  "Version":"1",
+                  "Provider":"GitHub"
+                },
+                "OutputArtifacts":[
+                  {
+                    "Name":{
+                      "Ref":"PipelineArtifact"
+                    }
+                  }
+                ],
+                "Configuration":{
+                  "Owner": "stelligent",
+                  "Repo": "stelligent_pipelines",
+                  "Branch": "master",
+                  "OAuthToken":{
+                    "Ref":"GitHubToken"
+                  }
+                },
+                "RunOrder":1
               }
             ]
           },
