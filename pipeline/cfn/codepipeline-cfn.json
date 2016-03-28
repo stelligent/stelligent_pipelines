@@ -102,9 +102,7 @@
                 },
                 "OutputArtifacts":[
                   {
-                    "Name":{
-                      "Ref":"PipelineArtifact"
-                    }
+                    "Name":"PipelineArtifact"
                   }
                 ],
                 "Configuration":{
