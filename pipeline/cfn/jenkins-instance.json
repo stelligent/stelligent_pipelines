@@ -134,9 +134,9 @@
                   "Fn::Join":[
                     "",
                     [
-                      "cd /var/lib/jenkins/jobs/\n",
-                      "tar xzf /tmp/job-configs.tgz\n",
-                      "chown -R jenkins:jenkins .\n"
+                      "cd /var/lib/jenkins/jobs/;",
+                      "tar xzf /tmp/job-configs.tgz;",
+                      "chown -R jenkins:jenkins .;"
                     ]
                   ]
                 }
