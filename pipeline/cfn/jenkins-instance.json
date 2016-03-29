@@ -115,6 +115,19 @@
                 "mode":"000644",
                 "owner":"root",
                 "group":"root"
+              },
+              "/var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml":{
+                "content":{"Fn::Join": ["", [
+                  "<?xml version='1.0' encoding='UTF-8'?>",
+                  "<jenkins.model.JenkinsLocationConfiguration>",
+                  "<adminAddress>address not configured yet &lt;nobody@nowhere&gt;</adminAddress>",
+                  "<jenkinsUrl>http://",
+                  {"Fn::GetAtt":["JenkinsInstance", "PublicIp"]},
+                  ":8080/</jenkinsUrl>",
+                  "</jenkins.model.JenkinsLocationConfiguration>"]]},
+                "mode":"000644",
+                "owner":"jenkins",
+                "group":"jenkins"
               }
             },
             "commands":{
