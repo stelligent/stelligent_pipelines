@@ -17,6 +17,11 @@
       "Default":"EMPTY",
       "Description":"Name of S3 bucket used to store Jenkins config"
     },
+    "DemoResultsBucket":{
+      "Type":"String",
+      "Default":"EMPTY",
+      "Description":"Name of the S3 bucket used to store test results"
+    },
     "Branch":{
       "Type":"String",
       "Default":"EMPTY",
@@ -132,6 +137,12 @@
       "Description":"Name of S3 bucket used to store Jenkins config",
       "Value":{
         "Ref":"DromedaryS3Bucket"
+      }
+    },
+    "DemoResultsBucket":{
+      "Description":"Name of the S3 bucket used to store test results",
+      "Value":{
+        "Ref":"DemoResultsBucket"
       }
     },
     "Branch":{

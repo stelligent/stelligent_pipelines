@@ -198,6 +198,11 @@
     "pEnableConfig": {
       "Type":"String",
       "Default": "true"
+    },
+    "pDemoResultsBucket":{
+      "Description":"S3 Bucket to store pipeline test results in. Should already exist.",
+      "Type":"String",
+      "Default":"demo.stelligent-continuous-security.com"
     }
   },
   "Mappings":{
@@ -1291,6 +1296,9 @@
           },
           "DromedaryS3Bucket":{
             "Ref":"AWS::AccountId"
+          },
+          "DemoResultsBucket":{
+            "Ref":"pDemoResultsBucket"
           },
           "Branch":{
             "Ref":"Branch"

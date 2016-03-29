@@ -22,6 +22,7 @@ LambdaConfigStackName="$(aws cloudformation describe-stacks --stack-name $pipeli
 MasterStackName="$(aws cloudformation describe-stacks --stack-name $pipeline_store_stackname --output text --query 'Stacks[0].Outputs[?OutputKey==`MasterStackName`].OutputValue')"
 ZapStackName="$(aws cloudformation describe-stacks --stack-name $pipeline_store_stackname --output text --query 'Stacks[0].Outputs[?OutputKey==`ZapStackName`].OutputValue')"
 dromedary_s3_bucket=dromedary-"$(aws cloudformation describe-stacks --stack-name $pipeline_store_stackname --output text --query 'Stacks[0].Outputs[?OutputKey==`DromedaryS3Bucket`].OutputValue')"
+demo_results_s3_bucket="$(aws cloudformation describe-stacks --stack-name $pipeline_store_stackname --output text --query 'Stacks[0].Outputs[?OutputKey==`DemoResultsBucket`].OutputValue')"
 dromedary_branch="$(aws cloudformation describe-stacks --stack-name $pipeline_store_stackname --output text --query 'Stacks[0].Outputs[?OutputKey==`Branch`].OutputValue')"
 dromedary_ec2_key="$(aws cloudformation describe-stacks --stack-name $pipeline_store_stackname --output text --query 'Stacks[0].Outputs[?OutputKey==`KeyName`].OutputValue')"
 
@@ -105,6 +106,7 @@ for f in */config.xml; do
     sed -e "s/DromedaryJenkins/$jenkins_custom_action_provider_name/" \
         -e "s;BRANCH_PLACEHOLDER;$dromedary_branch;" \
         -e "s/S3BUCKET_PLACEHOLDER/$dromedary_s3_bucket/" \
+        -e "s/DEMO_RESULTS_BUCKET_PLACEHOLDER/$demo_results_s3_bucket/"
         -e "s/VPC_PLACEHOLDER/$dromedary_vpc_stack_name/" \
         -e "s/IAM_PLACEHOLDER/$dromedary_iam_stack_name/" \
         -e "s/DDB_PLACEHOLDER/$dromedary_ddb_stack_name/" \
@@ -138,6 +140,7 @@ aws cloudformation update-stack \
     --capabilities="CAPABILITY_IAM" \
     --parameters ParameterKey=UUID,ParameterValue=$uuid \
         ParameterKey=DromedaryS3Bucket,ParameterValue=$dromedary_s3_bucket \
+        ParameterKey=DemoResultsBucket,ParameterValue=$demo_results_s3_bucket \
         ParameterKey=Branch,ParameterValue=$dromedary_branch \
         ParameterKey=MasterStackName,ParameterValue=$MasterStackName \
         ParameterKey=JobConfigsTarball,ParameterValue=$config_tar_path \
