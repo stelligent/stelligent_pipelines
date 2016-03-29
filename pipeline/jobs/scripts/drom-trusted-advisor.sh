@@ -9,7 +9,7 @@ gem install trusted-advisor-status --version 0.0.4 \
 
 trusted-advisor-status > full_trusted_advisor_results.json
 
-aws s3api put-object --bucket demo.stelligent-continuous-security.com \
+aws s3api put-object --bucket ${DEMO_RESULTS_BUCKET} \
                      --key 'data/full_trusted_advisor_results.json' \
                      --body full_trusted_advisor_results.json \
                      --region us-east-1

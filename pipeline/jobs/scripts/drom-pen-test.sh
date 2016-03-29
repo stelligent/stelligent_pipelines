@@ -25,7 +25,7 @@ behave_result=$(/usr/local/bin/behave --no-summary --format json.pretty > ${PENT
     exit 1
 }
 python report_results.py \
-    --bucket demo.stelligent-continuous-security.com \
+    --bucket ${DEMO_RESULTS_BUCKET} \
     --filename data/automated_pen_test_results.json \
     --inputfile ${PENTEST_RESULTS}
 exit "${behave_result}"

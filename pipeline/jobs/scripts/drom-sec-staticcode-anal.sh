@@ -33,7 +33,7 @@ cat cfn_nag_results_raw.json | \
 cat aggregate_status_cfn_nag_results.json | \
   jq '{ result: .result, results: [.results[]|.filename as $filename|.file_results.violations[]|.filename=$filename]|sort_by(.type)}' > cfn_nag_results.json
 
-aws s3api put-object --bucket demo.stelligent-continuous-security.com \
+aws s3api put-object --bucket ${DEMO_RESULTS_BUCKET} \
                      --key 'data/cfn_nag_results.json' \
                      --body cfn_nag_results.json \
                      --region us-east-1
@@ -42,7 +42,7 @@ cat << EOF > sec_staticcode_anal_job_info.json
 { "JOB_NAME": "${JOB_NAME}", "BUILD_NUMBER": "${BUILD_NUMBER}", "BUILD_ID": "${BUILD_ID}", "BUILD_URL": "${BUILD_URL}"}
 EOF
 
-aws s3api put-object --bucket demo.stelligent-continuous-security.com \
+aws s3api put-object --bucket ${DEMO_RESULTS_BUCKET} \
                      --key 'data/sec_staticcode_anal_job_info.json' \
                      --body sec_staticcode_anal_job_info.json \
                      --region us-east-1

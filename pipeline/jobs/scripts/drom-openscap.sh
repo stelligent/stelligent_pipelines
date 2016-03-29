@@ -9,7 +9,7 @@ dest_host="$(aws cloudformation describe-stacks --stack-name "${dromedary_app_st
                                                 --query 'Stacks[0].Outputs[?OutputKey==`PublicDns`].OutputValue')"
 
 
-aws s3 cp "s3://demo.stelligent-continuous-security.com/${dest_host}-oscap-results.xml" \
+aws s3 cp "s3://${DEMO_RESULTS_BUCKET}/${dest_host}-oscap-results.xml" \
           oscap-results.xml
 
 failure_count=$(xmllint --xpath "count(//*[namespace-uri()='http://checklists.nist.gov/xccdf/1.1' and local-name()='rule-result'][*[local-name()='result'][text()='fail']])" \
