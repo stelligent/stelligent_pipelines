@@ -119,6 +119,9 @@ for f in */config.xml; do
         -e "s/ACTION_PROVIDER_PLACEHOLDER/$jenkins_custom_action_provider_name/" $f > $f.new && mv $f.new $f
 done
 
+# Archive the Jenkins job configurations, then upload the artifact into
+# S3. This tarball will be retrieved by cfn-init during Jenkins instance
+# provision, and will be untarred in /var/lib/jenkins as appropriate
 tar czf job-configs.tgz *
 aws s3 cp job-configs.tgz s3://$dromedary_s3_bucket/$config_tar_path
 popd > /dev/null
