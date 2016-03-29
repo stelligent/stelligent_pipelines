@@ -34,6 +34,8 @@ ENABLE_CONFIG=${ENABLE_CONFIG:-false}
 # S3 bucket for Dromedary application resources
 # XXX remove dromedary-isms if possible
 DROMEDARY_BUCKET=${DROMEDARY_BUCKET:-xxxx} #for example in goldbase it would be:  dromedary-592804526322
+# S3 bucket for Dromedary pipeline results for demo
+DEMO_RESULTS_BUCKET=${DEMO_RESULTS_BUCKET:-demo.stelligent-continuous-security.com}
 # AMI ID for launching ZAP server
 ZAP_AMI_ID=${ZAP_AMI_ID:-ami-cdb588a7}
 # CloudFormation stack name for pipeline
@@ -41,10 +43,13 @@ STACK_NAME=${STACK_NAME:-DromedaryStack}
 # Internally used URL to DEV_BUCKET S3 resources
 BASE_TEMPLATE_URL="https://s3.amazonaws.com/${DEV_BUCKET}/"
 
-# Create $DEV_BUCKET
+# Create $DEV_BUCKET, $DROMEDARY_BUCKET,
+# $DEMO_RESULTS_BUCKET
+
 # XXX no check for existence
 aws s3api create-bucket --bucket ${DEV_BUCKET}
 aws s3api create-bucket --bucket ${DROMEDARY_BUCKET}
+aws s3api create-bucket --bucket ${DEMO_RESULTS_BUCKET}
 
 # Upload all needed cloudformation templates to DEV_BUCKET
 # XXX these templates should have a key prefix like cfn/
