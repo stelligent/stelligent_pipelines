@@ -148,8 +148,7 @@
                     [
                       "PUBLIC_IP=$(curl http://169.254.169.254/latest/meta-data/public-ipv4);",
                       "sed -e \"s/%PUBLICIP%/$PUBLIC_IP/g\" -i /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml"
-                    ]]
-                  }
+                  ]]
                 }
               },
               "10-install-node":{
