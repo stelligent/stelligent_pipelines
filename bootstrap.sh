@@ -32,7 +32,7 @@ DEV_BUCKET=${DEV_BUCKET:-xxxx}
 # Whether to update AWS Lambda functions with new code
 ENABLE_CONFIG=${ENABLE_CONFIG:-false}
 # S3 bucket for Dromedary application resources
-# XXX remove
+# XXX remove dromedary-isms if possible
 DROMEDARY_BUCKET=${DROMEDARY_BUCKET:-xxxx} #for example in goldbase it would be:  dromedary-592804526322
 # AMI ID for launching ZAP server
 ZAP_AMI_ID=${ZAP_AMI_ID:-ami-cdb588a7}
