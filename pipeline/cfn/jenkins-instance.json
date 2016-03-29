@@ -121,9 +121,7 @@
                   "<?xml version='1.0' encoding='UTF-8'?>",
                   "<jenkins.model.JenkinsLocationConfiguration>",
                   "<adminAddress>address not configured yet &lt;nobody@nowhere&gt;</adminAddress>",
-                  "<jenkinsUrl>http://",
-                  {"Fn::GetAtt":["JenkinsInstance", "PublicIp"]},
-                  ":8080/</jenkinsUrl>",
+                  "<jenkinsUrl>http://%PUBLICIP%:8080/</jenkinsUrl>",
                   "</jenkins.model.JenkinsLocationConfiguration>"]]},
                 "mode":"000644",
                 "owner":"jenkins",
@@ -141,6 +139,17 @@
                       "chown -R jenkins:jenkins .\n"
                     ]
                   ]
+                }
+              },
+              "01-set-publicip-jenkins-config":{
+                "command":{
+                  "Fn::Join":[
+                    "",
+                    [
+                      "PUBLIC_IP=$(curl http://169.254.169.254/latest/meta-data/public-ipv4);",
+                      "sed -e \"s/%PUBLICIP%/$PUBLIC_IP/g\" -i /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml"
+                    ]]
+                  }
                 }
               },
               "10-install-node":{
