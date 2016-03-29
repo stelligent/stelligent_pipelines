@@ -96,6 +96,11 @@ echo "The value of eni_subnet_id is $eni_subnet_id"
 
 cp -r $config_dir/* $temp_dir/
 pushd $temp_dir > /dev/null
+
+# For all Jenkins job definitions files (XML format), substitute
+# relevant environment variables into placeholders
+# N.B. uses redirect/mv pattern for cross compatibility between
+# Mac (BSD) sed and Linux (GNU) sed
 for f in */config.xml; do
     sed "s/DromedaryJenkins/$jenkins_custom_action_provider_name/" $f > $f.new && mv $f.new $f
 done
