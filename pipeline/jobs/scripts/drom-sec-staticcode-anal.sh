@@ -25,6 +25,13 @@ cfn_nag --input-json-path ${templates_to_audit} \
         --output-format json > cfn_nag_results_raw.json
 cfn_nag_result=$?
 
+if [ $cfn_nag_result -gt 0 ]; then
+  echo 'cfn_nag returned failure!'
+  cat cfn_nag_results_raw.json
+  echo 'original template:'
+  cat $templates_to_audit
+fi
+
 set -e
 set -o pipefail
 cat cfn_nag_results_raw.json | \
