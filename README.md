@@ -40,8 +40,10 @@ Example environment file:
     export DROMEDARY_BUCKET=consecconfigjlb
     export STACK_NAME=ConSecDemoJLB
     export ENABLE_CONFIG=false
-    export APP_REPO_BRANCH="feature/CS-54-delete-pipeline-code-from-repo"
+    export APP_REPO_BRANCH="consec"
     export PIPELINES_REPO_BRANCH="master"
+    export DEMO_RESULTS_BUCKET="demojlb.stelligent-continuous-security.com"
+
 
 Source the file, then run bootstrap.sh:
 
