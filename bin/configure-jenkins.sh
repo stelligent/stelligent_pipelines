@@ -106,7 +106,7 @@ for f in */config.xml; do
     sed -e "s/DromedaryJenkins/$jenkins_custom_action_provider_name/" \
         -e "s;BRANCH_PLACEHOLDER;$dromedary_branch;" \
         -e "s/S3BUCKET_PLACEHOLDER/$dromedary_s3_bucket/" \
-        -e "s/DEMO_RESULTS_BUCKET_PLACEHOLDER/$demo_results_s3_bucket/"
+        -e "s/DEMO_RESULTS_BUCKET_PLACEHOLDER/$demo_results_s3_bucket/" \
         -e "s/VPC_PLACEHOLDER/$dromedary_vpc_stack_name/" \
         -e "s/IAM_PLACEHOLDER/$dromedary_iam_stack_name/" \
         -e "s/DDB_PLACEHOLDER/$dromedary_ddb_stack_name/" \
