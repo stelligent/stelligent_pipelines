@@ -45,6 +45,8 @@ Example environment file:
     export DEMO_RESULTS_BUCKET="demojlb.stelligent-continuous-security.com"
 
 
+NOTE: If you're running on Linux, you might need to install [jq](http://xmodulo.com/how-to-parse-json-string-via-command-line-on-linux.html).
+
 Source the file, then run bootstrap.sh:
 
     . ../pipeline.env;./bootstrap.sh
