@@ -49,6 +49,9 @@ _NOTE: If you're running on Linux, you might need to install [jq](http://xmodulo
 
 _NOTE: If you're running on Mac OS X, you will probably need to install [jq](https://github.com/stedolan/jq/wiki/Installation#mac-osx)._
 
+_NOTE: Part of this pipeline requires a [ZAP OWASP](https://www.owasp.org/index.php) instance. To allow its
+creation, please use the [Stelligent ZAP](https://github.com/stelligent/zap) repository to generate an AMI for your account_
+
 Source the file, then run bootstrap.sh:
 
     . ../pipeline.env;./bootstrap.sh
