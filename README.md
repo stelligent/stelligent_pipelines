@@ -22,7 +22,7 @@ applications.
 
 Usage:
 
-Create a text file (such as ../pipeline.env) with overrides for
+Create a text file (such as `../pipeline.env`) with overrides for
 environment variables used in bootstrap.sh
 
 Example environment file:
@@ -45,7 +45,7 @@ Example environment file:
     export DEMO_RESULTS_BUCKET="demojlb.stelligent-continuous-security.com"
 
 
-NOTE: If you're running on Linux, you might need to install [jq](http://xmodulo.com/how-to-parse-json-string-via-command-line-on-linux.html).
+_NOTE: If you're running on Linux, you might need to install [jq](http://xmodulo.com/how-to-parse-json-string-via-command-line-on-linux.html)._
 
 Source the file, then run bootstrap.sh:
 
