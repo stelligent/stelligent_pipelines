@@ -29,7 +29,7 @@ Example environment file:
 
     export EC2_KEY_PAIR_NAME=jeff-labs
     export ZAP_AMI_ID=ami-824a45e8
-    export HOSTED_ZONE_NAME=demo.elasticoperations.com
+    export HOSTED_ZONE_NAME=elasticoperations.com
     export DYNAMODB_TABLE_NAME=consecjlb
     export GITHUB_TOKEN=db50...
     export GITHUB_USER=stelligent
