@@ -47,6 +47,8 @@ Example environment file:
 
 _NOTE: If you're running on Linux, you might need to install [jq](http://xmodulo.com/how-to-parse-json-string-via-command-line-on-linux.html)._
 
+_NOTE: If you're running on Mac OS X, you will probably need to install [jq](https://github.com/stedolan/jq/wiki/Installation#mac-osx)._
+
 Source the file, then run bootstrap.sh:
 
     . ../pipeline.env;./bootstrap.sh
