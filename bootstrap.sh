@@ -43,6 +43,22 @@ STACK_NAME=${STACK_NAME:-DromedaryStack}
 # Internally used URL to DEV_BUCKET S3 resources
 BASE_TEMPLATE_URL="https://s3.amazonaws.com/${DEV_BUCKET}/"
 
+# Ensure jq utility is installed, if not bail
+which jq
+if [[ $? != 0 ]];
+then
+  echo "jq must be installed - on a mac: brew install jq"
+  exit 1
+fi
+
+# Ensure aws_cli tools are installed, if not bail
+which aws
+if [[ $? != 0 ]];
+then
+  echo "aws_cli tools must be installed - on a mac: brew install awscli"
+  exit 1
+fi
+
 # Create $DEV_BUCKET, $DROMEDARY_BUCKET,
 # $DEMO_RESULTS_BUCKET
 
@@ -58,13 +74,6 @@ do
   aws s3 cp ${json} s3://${DEV_BUCKET}/
 done
 
-# Ensure jq utility is installed, if not bail
-which jq
-if [[ $? != 0 ]];
-then
-  echo "jq must be installed - on a mac: brew install jq"
-  exit 1
-fi
 
 # Ensure $EC2_KEY_PAIR_NAME exists in EC2. If not, generate a
 # new keypair by that name and store the private key to
