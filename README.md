@@ -52,6 +52,10 @@ _NOTE: If you're running on Mac OS X, you will probably need to install [jq](htt
 _NOTE: Part of this pipeline requires a [ZAP OWASP](https://www.owasp.org/index.php) instance. To allow its
 creation, please use the [Stelligent ZAP](https://github.com/stelligent/zap) repository to generate an AMI for your account_
 
+_Note: The GITHUB_USER should remain stelligent and the GITHUB_TOKEN should be your own token._
+
+_Note: At this time the AWS DNS Hosted Zone should pre-exist and be set as public hosted._
+
 Source the file, then run bootstrap.sh:
 
     . ../pipeline.env;./bootstrap.sh
