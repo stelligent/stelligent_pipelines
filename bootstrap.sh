@@ -90,8 +90,9 @@ fi
 
 # If a hosted zone does not exist that matches the name in
 # $HOSTED_ZONE_NAME, create a new zone
-hosted_zone_count=$(aws route53 list-hosted-zones-by-name --dns-name ${HOSTED_ZONE_NAME} | jq '.HostedZones|length')
-if [[ ${hosted_zone_count} == 0 ]];
+#hosted_zone_count=$(aws route53 list-hosted-zones-by-name --dns-name ${HOSTED_ZONE_NAME} | jq '.HostedZones|length')
+hosted_zone_count=$(aws route53 list-hosted-zones-by-name | jq ".HostedZones[].Name | contains(\"${HOSTED_ZONE_NAME}\")" | grep -i true | wc -l)
+if [[ ${hosted_zone_count} -eq 0 ]];
 then
   set -e
   aws route53 create-hosted-zone --name ${HOSTED_ZONE_NAME} \
