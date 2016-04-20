@@ -44,17 +44,18 @@ Example environment file:
     export PIPELINES_REPO_BRANCH="master"
     export DEMO_RESULTS_BUCKET="demojlb.stelligent-continuous-security.com"
 
+## Important Notes
 
-_NOTE: If you're running on Linux, you might need to install [jq](http://xmodulo.com/how-to-parse-json-string-via-command-line-on-linux.html)._
+If you're running on Linux, you might need to install [jq](http://xmodulo.com/how-to-parse-json-string-via-command-line-on-linux.html)._
 
-_NOTE: If you're running on Mac OS X, you will probably need to install [jq](https://github.com/stedolan/jq/wiki/Installation#mac-osx)._
+If you're running on Mac OS X, you will probably need to install [jq](https://github.com/stedolan/jq/wiki/Installation#mac-osx).
 
-_NOTE: Part of this pipeline requires a [ZAP OWASP](https://www.owasp.org/index.php) instance. To allow its
-creation, please use the [Stelligent ZAP](https://github.com/stelligent/zap) repository to generate an AMI for your account_
+Part of this pipeline requires a [ZAP OWASP](https://www.owasp.org/index.php) instance. To allow its
+creation, please use the [Stelligent ZAP](https://github.com/stelligent/zap) repository to generate an AMI for your account.
 
-_Note: The GITHUB_USER should remain stelligent and the GITHUB_TOKEN should be your own token._
+The `GITHUB_USER` should remain `stelligent` and the `GITHUB_TOKEN` should be your own token.
 
-_Note: At this time the AWS DNS Hosted Zone should pre-exist and be set as public hosted._
+At this time the AWS DNS Hosted Zone should pre-exist and be set as public hosted.
 
 Source the file, then run bootstrap.sh:
 
