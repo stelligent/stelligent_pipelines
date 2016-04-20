@@ -46,16 +46,12 @@ Example environment file:
 
 ## Important Notes
 
-If you're running on Linux, you might need to install [jq](http://xmodulo.com/how-to-parse-json-string-via-command-line-on-linux.html)._
-
-If you're running on Mac OS X, you will probably need to install [jq](https://github.com/stedolan/jq/wiki/Installation#mac-osx).
-
-Part of this pipeline requires a [ZAP OWASP](https://www.owasp.org/index.php) instance. To allow its
+1. If you're running on Linux, you might need to install [jq](http://xmodulo.com/how-to-parse-json-string-via-command-line-on-linux.html).
+1. If you're running on Mac OS X, you will probably need to install [jq](https://github.com/stedolan/jq/wiki/Installation#mac-osx).
+1. Part of this pipeline requires a [ZAP OWASP](https://www.owasp.org/index.php) instance. To allow its
 creation, please use the [Stelligent ZAP](https://github.com/stelligent/zap) repository to generate an AMI for your account.
-
-The `GITHUB_USER` should remain `stelligent` and the `GITHUB_TOKEN` should be your own token.
-
-At this time the AWS DNS Hosted Zone should pre-exist and be set as public hosted.
+1. The `GITHUB_USER` should remain `stelligent` and the `GITHUB_TOKEN` should be your own token.
+1. At this time the AWS DNS Hosted Zone should pre-exist and be set as public hosted.
 
 Source the file, then run bootstrap.sh:
 
