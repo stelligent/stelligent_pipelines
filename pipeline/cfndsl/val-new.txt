@@ -1,0 +1,29 @@
+{
+    "Description": "Dromedary demo - create ENI and EIP and route 53 handling", 
+    "Parameters": [
+        {
+            "DefaultValue": "", 
+            "NoEcho": false, 
+            "Description": "Security Group id with which to associate app ENI", 
+            "ParameterKey": "SecurityGroupId"
+        }, 
+        {
+            "DefaultValue": "", 
+            "NoEcho": false, 
+            "Description": "DNS Hostname for prod IP (but not domainname)", 
+            "ParameterKey": "Hostname"
+        }, 
+        {
+            "DefaultValue": "", 
+            "NoEcho": false, 
+            "Description": "TODO: Modify this later. VPC subnet id in which to place ENI", 
+            "ParameterKey": "SubnetId"
+        }, 
+        {
+            "DefaultValue": "", 
+            "NoEcho": false, 
+            "Description": "Route53 Hosted Zone name for prod IP (include trailing .)", 
+            "ParameterKey": "Domain"
+        }
+    ]
+}
