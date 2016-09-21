@@ -1,64 +1,64 @@
 {
-  "AWSTemplateFormatVersion":"2010-09-09",
-  "Description":"Dromedary CodePipeline Custom Action Provisioning",
-  "Parameters":{
-    "MyInputArtifacts":{
-      "Type":"String",
-      "Default":"DromedarySource"
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Dromedary CodePipeline Custom Action Provisioning",
+  "Parameters": {
+    "MyInputArtifacts": {
+      "Type": "String",
+      "Default": "DromedarySource"
     },
-    "MyBuildProvider":{
-      "Type":"String"
+    "MyBuildProvider": {
+      "Type": "String"
     },
-    "MyJenkinsURL":{
-      "Type":"String"
+    "MyJenkinsURL": {
+      "Type": "String"
     }
   },
-  "Resources":{
-    "MyCustomBuildActionType":{
-      "Type":"AWS::CodePipeline::CustomActionType",
-      "Properties":{
-        "Category":"Build",
-        "Provider":{
-          "Ref":"MyBuildProvider"
+  "Resources": {
+    "MyCustomBuildActionType": {
+      "Type": "AWS::CodePipeline::CustomActionType",
+      "Properties": {
+        "Category": "Build",
+        "Provider": {
+          "Ref": "MyBuildProvider"
         },
-        "Version":"1",
-        "ConfigurationProperties":[
+        "Version": "1",
+        "ConfigurationProperties": [
           {
-            "Description":"The name of the build project must be provided when this action is added to the pipeline.",
-            "Key":"true",
-            "Name":"ProjectName",
-            "Queryable":"true",
-            "Required":"true",
-            "Secret":"false",
-            "Type":"String"
+            "Description": "The name of the build project must be provided when this action is added to the pipeline.",
+            "Key": "true",
+            "Name": "ProjectName",
+            "Queryable": "true",
+            "Required": "true",
+            "Secret": "false",
+            "Type": "String"
           }
         ],
-        "InputArtifactDetails":{
-          "MaximumCount":"5",
-          "MinimumCount":"1"
+        "InputArtifactDetails": {
+          "MaximumCount": "5",
+          "MinimumCount": "1"
         },
-        "OutputArtifactDetails":{
-          "MaximumCount":"5",
-          "MinimumCount":"0"
+        "OutputArtifactDetails": {
+          "MaximumCount": "5",
+          "MinimumCount": "0"
         },
-        "Settings":{
-          "EntityUrlTemplate":{
-            "Fn::Join":[
+        "Settings": {
+          "EntityUrlTemplate": {
+            "Fn::Join": [
               "",
               [
                 {
-                  "Ref":"MyJenkinsURL"
+                  "Ref": "MyJenkinsURL"
                 },
                 "job/{Config:ProjectName}"
               ]
             ]
           },
-          "ExecutionUrlTemplate":{
-            "Fn::Join":[
+          "ExecutionUrlTemplate": {
+            "Fn::Join": [
               "",
               [
                 {
-                  "Ref":"MyJenkinsURL"
+                  "Ref": "MyJenkinsURL"
                 },
                 "job/{Config:ProjectName}/{ExternalExecutionId}"
               ]
@@ -67,51 +67,51 @@
         }
       }
     },
-    "MyCustomTestActionType":{
-      "Type":"AWS::CodePipeline::CustomActionType",
-      "Properties":{
-        "Category":"Test",
-        "Provider":{
-          "Ref":"MyBuildProvider"
+    "MyCustomTestActionType": {
+      "Type": "AWS::CodePipeline::CustomActionType",
+      "Properties": {
+        "Category": "Test",
+        "Provider": {
+          "Ref": "MyBuildProvider"
         },
-        "Version":"1",
-        "ConfigurationProperties":[
+        "Version": "1",
+        "ConfigurationProperties": [
           {
-            "Description":"The name of the build project must be provided when this action is added to the pipeline.",
-            "Key":"true",
-            "Name":"ProjectName",
-            "Queryable":"true",
-            "Required":"true",
-            "Secret":"false",
-            "Type":"String"
+            "Description": "The name of the build project must be provided when this action is added to the pipeline.",
+            "Key": "true",
+            "Name": "ProjectName",
+            "Queryable": "true",
+            "Required": "true",
+            "Secret": "false",
+            "Type": "String"
           }
         ],
-        "InputArtifactDetails":{
-          "MaximumCount":"5",
-          "MinimumCount":"1"
+        "InputArtifactDetails": {
+          "MaximumCount": "5",
+          "MinimumCount": "1"
         },
-        "OutputArtifactDetails":{
-          "MaximumCount":"5",
-          "MinimumCount":"0"
+        "OutputArtifactDetails": {
+          "MaximumCount": "5",
+          "MinimumCount": "0"
         },
-        "Settings":{
-          "EntityUrlTemplate":{
-            "Fn::Join":[
+        "Settings": {
+          "EntityUrlTemplate": {
+            "Fn::Join": [
               "",
               [
                 {
-                  "Ref":"MyJenkinsURL"
+                  "Ref": "MyJenkinsURL"
                 },
                 "job/{Config:ProjectName}"
               ]
             ]
           },
-          "ExecutionUrlTemplate":{
-            "Fn::Join":[
+          "ExecutionUrlTemplate": {
+            "Fn::Join": [
               "",
               [
                 {
-                  "Ref":"MyJenkinsURL"
+                  "Ref": "MyJenkinsURL"
                 },
                 "job/{Config:ProjectName}/{ExternalExecutionId}"
               ]
@@ -121,23 +121,23 @@
       }
     }
   },
-  "Outputs":{
-    "StackName":{
-      "Value":{
-        "Ref":"AWS::StackName"
+  "Outputs": {
+    "StackName": {
+      "Value": {
+        "Ref": "AWS::StackName"
       }
     },
-    "CustomActionBuildName":{
-      "Description":"CodePipeline Build Custom action name",
-      "Value":{
-        "Ref":"MyCustomBuildActionType"
-      }
+    "CustomActionBuildName": {
+      "Value": {
+        "Ref": "MyCustomBuildActionType"
+      },
+      "Description": "CodePipeline Build Custom action name"
     },
-    "CustomActionTestName":{
-      "Description":"CodePipeline Test Custom action name",
-      "Value":{
-        "Ref":"MyCustomTestActionType"
-      }
+    "CustomActionTestName": {
+      "Value": {
+        "Ref": "MyCustomTestActionType"
+      },
+      "Description": "CodePipeline Test Custom action name"
     }
   }
 }

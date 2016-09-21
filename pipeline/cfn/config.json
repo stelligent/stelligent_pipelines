@@ -4,7 +4,7 @@
   "Resources": {
     "ConfigBucket": {
       "Type": "AWS::S3::Bucket",
-      "DeletionPolicy" : "Retain",
+      "DeletionPolicy": "Retain",
       "Properties": {
         "AccessControl": "BucketOwnerFullControl"
       }
@@ -41,17 +41,22 @@
             "PolicyDocument": {
               "Statement": [
                 {
-                  "Effect": "Allow",
                   "Action": "sns:Publish",
+                  "Effect": "Allow",
                   "Resource": {
                     "Ref": "ConfigTopic"
                   }
                 },
                 {
-                  "Effect": "Allow",
                   "Action": [
                     "s3:PutObject"
                   ],
+                  "Condition": {
+                    "StringLike": {
+                      "s3:x-amz-acl": "bucket-owner-full-control"
+                    }
+                  },
+                  "Effect": "Allow",
                   "Resource": [
                     {
                       "Fn::Join": [
@@ -69,18 +74,13 @@
                         ]
                       ]
                     }
-                  ],
-                  "Condition": {
-                    "StringLike": {
-                      "s3:x-amz-acl": "bucket-owner-full-control"
-                    }
-                  }
+                  ]
                 },
                 {
-                  "Effect": "Allow",
                   "Action": [
                     "s3:GetBucketAcl"
                   ],
+                  "Effect": "Allow",
                   "Resource": {
                     "Fn::Join": [
                       "",
@@ -94,7 +94,6 @@
                   }
                 },
                 {
-                  "Effect": "Allow",
                   "Action": [
                     "appstream:Get*",
                     "autoscaling:Describe*",
@@ -159,6 +158,7 @@
                     "tag:Get*",
                     "trustedadvisor:Describe*"
                   ],
+                  "Effect": "Allow",
                   "Resource": "*"
                 }
               ]
@@ -211,10 +211,10 @@
       }
     }
   },
-  "Outputs":{
-    "StackName":{
-      "Value":{
-        "Ref":"AWS::StackName"
+  "Outputs": {
+    "StackName": {
+      "Value": {
+        "Ref": "AWS::StackName"
       }
     }
   }

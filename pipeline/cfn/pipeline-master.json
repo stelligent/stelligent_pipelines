@@ -1,130 +1,131 @@
- {
-  "AWSTemplateFormatVersion":"2010-09-09",
-  "Description":"Master dromedary stack that calls nested stacks",
-  "Parameters":{
-    "KeyName":{
-      "Description":"Name of an existing EC2 KeyPair to enable SSH access to the instances",
-      "Type":"AWS::EC2::KeyPair::KeyName",
-      "ConstraintDescription":"must be the name of an existing EC2 KeyPair."
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Master dromedary stack that calls nested stacks",
+  "Parameters": {
+    "KeyName": {
+      "Type": "AWS::EC2::KeyPair::KeyName",
+      "Description": "Name of an existing EC2 KeyPair to enable SSH access to the instances",
+      "ConstraintDescription": "must be the name of an existing EC2 KeyPair."
     },
-    "Repo":{
-      "Type":"String",
-      "Description":"The name of the dromedary repository, not the URL",
-      "Default":"dromedary"
+    "Repo": {
+      "Type": "String",
+      "Description": "The name of the dromedary repository, not the URL",
+      "Default": "dromedary"
     },
-    "GitHubToken":{
-      "NoEcho":"true",
-      "Type":"String",
-      "Description":"Secret. OAuthToken with access to Repo. The default is invalid and used for example purposes. Go to https://github.com/settings/tokens"
+    "GitHubToken": {
+      "Type": "String",
+      "Description": "Secret. OAuthToken with access to Repo. The default is invalid and used for example purposes. Go to https://github.com/settings/tokens",
+      "NoEcho": true
     },
-    "GitHubUser":{
-      "Type":"String",
-      "Description":"GitHub UserName. This username must have access to the GitHubToken.",
-      "Default":"stelligent"
+    "GitHubUser": {
+      "Type": "String",
+      "Description": "GitHub UserName. This username must have access to the GitHubToken.",
+      "Default": "stelligent"
     },
-    "BaseTemplateURL":{
-      "Type":"String",
-      "Description":"S3 Base URL of all the CloudFormation templated used in Dromedary (without the file names)",
-      "Default":"https://s3.amazonaws.com/stelligent-training-public/master/"
+    "BaseTemplateURL": {
+      "Type": "String",
+      "Description": "S3 Base URL of all the CloudFormation templated used in Dromedary (without the file names)",
+      "Default": "https://s3.amazonaws.com/stelligent-training-public/master/"
     },
-    "VPCCFNTemplateFile":{
-      "Type":"String",
-      "Description":"Just the name of the CloudFormation template. Used with BaseTemplateURL.",
-      "Default":"vpc.json"
+    "VPCCFNTemplateFile": {
+      "Type": "String",
+      "Description": "Just the name of the CloudFormation template. Used with BaseTemplateURL.",
+      "Default": "vpc.json"
     },
-    "CodePipelineCFNTemplateFile":{
-      "Type":"String",
-      "Description":"Just the name of the CloudFormation template. Used with BaseTemplateURL.",
-      "Default":"codepipeline-cfn.json"
+    "CodePipelineCFNTemplateFile": {
+      "Type": "String",
+      "Description": "Just the name of the CloudFormation template. Used with BaseTemplateURL.",
+      "Default": "codepipeline-cfn.json"
     },
-    "CodePipelineActionsCFNTemplateFile":{
-      "Type":"String",
-      "Description":"Just the name of the CloudFormation template. Used with BaseTemplateURL.",
-      "Default":"codepipeline-custom-actions.json"
+    "CodePipelineActionsCFNTemplateFile": {
+      "Type": "String",
+      "Description": "Just the name of the CloudFormation template. Used with BaseTemplateURL.",
+      "Default": "codepipeline-custom-actions.json"
     },
-    "ENICFNTemplateFile":{
-      "Type":"String",
-      "Description":"Just the name of the CloudFormation template. Used with BaseTemplateURL.",
-      "Default":"app-eni.json"
+    "ENICFNTemplateFile": {
+      "Type": "String",
+      "Description": "Just the name of the CloudFormation template. Used with BaseTemplateURL.",
+      "Default": "app-eni.json"
     },
-    "ZapCFNTemplateFile":{
-      "Type":"String",
-      "Description":"Just the name of the CloudFormation template. Used with BaseTemplateURL.",
-      "Default":"zap-instance.json"
+    "ZapCFNTemplateFile": {
+      "Type": "String",
+      "Description": "Just the name of the CloudFormation template. Used with BaseTemplateURL.",
+      "Default": "zap-instance.json"
     },
-    "pZapAmiId":{
-      "Type":"String",
-      "Description":"AMI ID for ZAP server",
-      "Default":"ami-cdb588a7"
+    "pZapAmiId": {
+      "Type": "String",
+      "Description": "AMI ID for ZAP server",
+      "Default": "ami-cdb588a7"
     },
-    "JenkinsCFNTemplateFile":{
-      "Type":"String",
-      "Description":"Just the name of the CloudFormation template. Used with BaseTemplateURL.",
-      "Default":"jenkins-instance.json"
+    "JenkinsCFNTemplateFile": {
+      "Type": "String",
+      "Description": "Just the name of the CloudFormation template. Used with BaseTemplateURL.",
+      "Default": "jenkins-instance.json"
     },
-    "PipelineStoreCFNTemplateFile":{
-      "Type":"String",
-      "Description":"Just the name of the CloudFormation template. Used with BaseTemplateURL.",
-      "Default":"pipeline-store.json"
+    "PipelineStoreCFNTemplateFile": {
+      "Type": "String",
+      "Description": "Just the name of the CloudFormation template. Used with BaseTemplateURL.",
+      "Default": "pipeline-store.json"
     },
-    "IAMCFNTemplateFile":{
-      "Type":"String",
-      "Description":"Just the name of the CloudFormation template. Used with BaseTemplateURL.",
-      "Default":"iam.json"
+    "IAMCFNTemplateFile": {
+      "Type": "String",
+      "Description": "Just the name of the CloudFormation template. Used with BaseTemplateURL.",
+      "Default": "iam.json"
     },
-    "DDBCFNTemplateFile":{
-      "Type":"String",
-      "Description":"Just the name of the CloudFormation template. Used with BaseTemplateURL.",
-      "Default":"dynamodb.json"
+    "DDBCFNTemplateFile": {
+      "Type": "String",
+      "Description": "Just the name of the CloudFormation template. Used with BaseTemplateURL.",
+      "Default": "dynamodb.json"
     },
-    "ConfigCFNTemplateFile":{
-      "Type":"String",
-      "Description":"Just the name of the CloudFormation template. Used with BaseTemplateURL.",
-      "Default":"config.json"
+    "ConfigCFNTemplateFile": {
+      "Type": "String",
+      "Description": "Just the name of the CloudFormation template. Used with BaseTemplateURL.",
+      "Default": "config.json"
     },
-    "LambdaConfigCFNTemplateFile":{
-      "Type":"String",
-      "Description":"Just the name of the CloudFormation template. Used with BaseTemplateURL.",
-      "Default":"lambda-config.json"
+    "LambdaConfigCFNTemplateFile": {
+      "Type": "String",
+      "Description": "Just the name of the CloudFormation template. Used with BaseTemplateURL.",
+      "Default": "lambda-config.json"
     },
-    "pCloudFrontCFNTemplateFile":{
-      "Type":"String",
-      "Description":"Just the name of the CloudFormation template. Used with BaseTemplateURL.",
-      "Default":"cloudfront-cfn.json"
+    "pCloudFrontCFNTemplateFile": {
+      "Type": "String",
+      "Description": "Just the name of the CloudFormation template. Used with BaseTemplateURL.",
+      "Default": "cloudfront-cfn.json"
     },
-    "DDBTableName":{
-      "Type":"String",
-      "Description":"Unique name for the Dromedary Dynamo DB table"
+    "DDBTableName": {
+      "Type": "String",
+      "Description": "Unique name for the Dromedary Dynamo DB table"
     },
-    "pPipelinesRepo":{
-      "Type":"String",
-      "Description":"The Github https address to the public stelligent_pipelines repository.",
-      "Default":"https://github.com/stelligent/stelligent_pipelines.git"
+    "pPipelinesRepo": {
+      "Type": "String",
+      "Description": "The Github https address to the public stelligent_pipelines repository.",
+      "Default": "https://github.com/stelligent/stelligent_pipelines.git"
     },
-    "pPipelinesBranch":{
-      "Type":"String",
-      "Description":"The Github branch the public stelligent_pipelines repository.",
-      "Default":"master"
+    "pPipelinesBranch": {
+      "Type": "String",
+      "Description": "The Github branch the public stelligent_pipelines repository.",
+      "Default": "master"
     },
-    "Branch":{
-      "Type":"String",
-      "Description":"The Github branch the public dromedary repository.",
-      "Default":"master"
+    "Branch": {
+      "Type": "String",
+      "Description": "The Github branch the public dromedary repository.",
+      "Default": "master"
     },
-    "Domain":{
-      "Type":"String",
-      "Description":"Route53 Hosted Zone name for prod IP (include trailing .)",
-      "Default":"oneclickdeployment.com."
+    "Domain": {
+      "Type": "String",
+      "Description": "Route53 Hosted Zone name for prod IP (include trailing .)",
+      "Default": "oneclickdeployment.com."
     },
-    "ProdHostedZone":{
-      "Type":"String",
-      "Description":"Route53 Hosted Zone (e.g. .HOSTEDZONE or .oneclickdeployment.com)"
+    "ProdHostedZone": {
+      "Type": "String",
+      "Description": "Route53 Hosted Zone (e.g. .HOSTEDZONE or .oneclickdeployment.com)"
     },
-    "InstanceType":{
-      "Description":"WebServer EC2 instance type",
-      "Type":"String",
-      "Default":"m3.medium",
-      "AllowedValues":[
+    "InstanceType": {
+      "Type": "String",
+      "Description": "WebServer EC2 instance type",
+      "ConstraintDescription": "must be a valid EC2 instance type.",
+      "Default": "m3.medium",
+      "AllowedValues": [
         "t1.micro",
         "t2.nano",
         "t2.micro",
@@ -179,697 +180,761 @@
         "cr1.8xlarge",
         "cc2.8xlarge",
         "cg1.4xlarge"
-      ],
-      "ConstraintDescription":"must be a valid EC2 instance type."
+      ]
     },
-    "SSHLocation":{
-      "Description":"The IP address range that can be used to SSH to the EC2 instances",
-      "Type":"String",
-      "MinLength":"9",
-      "MaxLength":"18",
-      "Default":"0.0.0.0/0",
-      "AllowedPattern":"(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
-      "ConstraintDescription":"must be a valid IP CIDR range of the form x.x.x.x/x."
+    "SSHLocation": {
+      "Type": "String",
+      "Description": "The IP address range that can be used to SSH to the EC2 instances",
+      "ConstraintDescription": "must be a valid IP CIDR range of the form x.x.x.x/x.",
+      "Default": "0.0.0.0/0",
+      "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
+      "MaxLength": 18,
+      "MinLength": 9
     },
     "pEnableCloudFrontAndWaf": {
-      "Type":"String",
+      "Type": "String",
       "Default": "false"
     },
     "pEnableConfig": {
-      "Type":"String",
+      "Type": "String",
       "Default": "true"
     },
-    "pDemoResultsBucket":{
-      "Description":"S3 Bucket to store pipeline test results in. Should already exist.",
-      "Type":"String",
-      "Default":"demo.stelligent-continuous-security.com"
+    "pDemoResultsBucket": {
+      "Type": "String",
+      "Description": "S3 Bucket to store pipeline test results in. Should already exist.",
+      "Default": "demo.stelligent-continuous-security.com"
     }
   },
-  "Mappings":{
-    "Region2Examples":{
-      "us-east-1":{
-        "Examples":"https://s3.amazonaws.com/cloudformation-examples-us-east-1"
+  "Mappings": {
+    "Region2Examples": {
+      "ap-northeast-1": {
+        "Examples": "https://s3-ap-northeast-1.amazonaws.com/cloudformation-examples-ap-northeast-1"
       },
-      "us-west-2":{
-        "Examples":"https://s3-us-west-2.amazonaws.com/cloudformation-examples-us-west-2"
+      "ap-northeast-2": {
+        "Examples": "https://s3-ap-northeast-2.amazonaws.com/cloudformation-examples-ap-northeast-2"
       },
-      "us-west-1":{
-        "Examples":"https://s3-us-west-1.amazonaws.com/cloudformation-examples-us-west-1"
+      "ap-southeast-1": {
+        "Examples": "https://s3-ap-southeast-1.amazonaws.com/cloudformation-examples-ap-southeast-1"
       },
-      "eu-west-1":{
-        "Examples":"https://s3-eu-west-1.amazonaws.com/cloudformation-examples-eu-west-1"
+      "ap-southeast-2": {
+        "Examples": "https://s3-ap-southeast-2.amazonaws.com/cloudformation-examples-ap-southeast-2"
       },
-      "eu-central-1":{
-        "Examples":"https://s3-eu-central-1.amazonaws.com/cloudformation-examples-eu-central-1"
+      "cn-north-1": {
+        "Examples": "https://s3.cn-north-1.amazonaws.com.cn/cloudformation-examples-cn-north-1"
       },
-      "ap-southeast-1":{
-        "Examples":"https://s3-ap-southeast-1.amazonaws.com/cloudformation-examples-ap-southeast-1"
+      "eu-central-1": {
+        "Examples": "https://s3-eu-central-1.amazonaws.com/cloudformation-examples-eu-central-1"
       },
-      "ap-northeast-1":{
-        "Examples":"https://s3-ap-northeast-1.amazonaws.com/cloudformation-examples-ap-northeast-1"
+      "eu-west-1": {
+        "Examples": "https://s3-eu-west-1.amazonaws.com/cloudformation-examples-eu-west-1"
       },
-      "ap-northeast-2":{
-        "Examples":"https://s3-ap-northeast-2.amazonaws.com/cloudformation-examples-ap-northeast-2"
+      "sa-east-1": {
+        "Examples": "https://s3-sa-east-1.amazonaws.com/cloudformation-examples-sa-east-1"
       },
-      "ap-southeast-2":{
-        "Examples":"https://s3-ap-southeast-2.amazonaws.com/cloudformation-examples-ap-southeast-2"
+      "us-east-1": {
+        "Examples": "https://s3.amazonaws.com/cloudformation-examples-us-east-1"
       },
-      "sa-east-1":{
-        "Examples":"https://s3-sa-east-1.amazonaws.com/cloudformation-examples-sa-east-1"
+      "us-west-1": {
+        "Examples": "https://s3-us-west-1.amazonaws.com/cloudformation-examples-us-west-1"
       },
-      "cn-north-1":{
-        "Examples":"https://s3.cn-north-1.amazonaws.com.cn/cloudformation-examples-cn-north-1"
+      "us-west-2": {
+        "Examples": "https://s3-us-west-2.amazonaws.com/cloudformation-examples-us-west-2"
       }
     },
-    "AWSInstanceType2Arch":{
-      "t1.micro":{
-        "Arch":"PV64"
+    "AWSInstanceType2Arch": {
+      "c1.medium": {
+        "Arch": "PV64"
       },
-      "t2.nano":{
-        "Arch":"HVM64"
+      "c1.xlarge": {
+        "Arch": "PV64"
       },
-      "t2.micro":{
-        "Arch":"HVM64"
+      "c3.2xlarge": {
+        "Arch": "HVM64"
       },
-      "t2.small":{
-        "Arch":"HVM64"
+      "c3.4xlarge": {
+        "Arch": "HVM64"
       },
-      "t2.medium":{
-        "Arch":"HVM64"
+      "c3.8xlarge": {
+        "Arch": "HVM64"
       },
-      "t2.large":{
-        "Arch":"HVM64"
+      "c3.large": {
+        "Arch": "HVM64"
       },
-      "m1.small":{
-        "Arch":"PV64"
+      "c3.xlarge": {
+        "Arch": "HVM64"
       },
-      "m1.medium":{
-        "Arch":"PV64"
+      "c4.2xlarge": {
+        "Arch": "HVM64"
       },
-      "m1.large":{
-        "Arch":"PV64"
+      "c4.4xlarge": {
+        "Arch": "HVM64"
       },
-      "m1.xlarge":{
-        "Arch":"PV64"
+      "c4.8xlarge": {
+        "Arch": "HVM64"
       },
-      "m2.xlarge":{
-        "Arch":"PV64"
+      "c4.large": {
+        "Arch": "HVM64"
       },
-      "m2.2xlarge":{
-        "Arch":"PV64"
+      "c4.xlarge": {
+        "Arch": "HVM64"
       },
-      "m2.4xlarge":{
-        "Arch":"PV64"
+      "cc2.8xlarge": {
+        "Arch": "HVM64"
       },
-      "m3.medium":{
-        "Arch":"HVM64"
+      "cr1.8xlarge": {
+        "Arch": "HVM64"
       },
-      "m3.large":{
-        "Arch":"HVM64"
+      "d2.2xlarge": {
+        "Arch": "HVM64"
       },
-      "m3.xlarge":{
-        "Arch":"HVM64"
+      "d2.4xlarge": {
+        "Arch": "HVM64"
       },
-      "m3.2xlarge":{
-        "Arch":"HVM64"
+      "d2.8xlarge": {
+        "Arch": "HVM64"
       },
-      "m4.large":{
-        "Arch":"HVM64"
+      "d2.xlarge": {
+        "Arch": "HVM64"
       },
-      "m4.xlarge":{
-        "Arch":"HVM64"
+      "g2.2xlarge": {
+        "Arch": "HVMG2"
       },
-      "m4.2xlarge":{
-        "Arch":"HVM64"
+      "g2.8xlarge": {
+        "Arch": "HVMG2"
       },
-      "m4.4xlarge":{
-        "Arch":"HVM64"
+      "hi1.4xlarge": {
+        "Arch": "HVM64"
       },
-      "m4.10xlarge":{
-        "Arch":"HVM64"
+      "hs1.8xlarge": {
+        "Arch": "HVM64"
       },
-      "c1.medium":{
-        "Arch":"PV64"
+      "i2.2xlarge": {
+        "Arch": "HVM64"
       },
-      "c1.xlarge":{
-        "Arch":"PV64"
+      "i2.4xlarge": {
+        "Arch": "HVM64"
       },
-      "c3.large":{
-        "Arch":"HVM64"
+      "i2.8xlarge": {
+        "Arch": "HVM64"
       },
-      "c3.xlarge":{
-        "Arch":"HVM64"
+      "i2.xlarge": {
+        "Arch": "HVM64"
       },
-      "c3.2xlarge":{
-        "Arch":"HVM64"
+      "m1.large": {
+        "Arch": "PV64"
       },
-      "c3.4xlarge":{
-        "Arch":"HVM64"
+      "m1.medium": {
+        "Arch": "PV64"
       },
-      "c3.8xlarge":{
-        "Arch":"HVM64"
+      "m1.small": {
+        "Arch": "PV64"
       },
-      "c4.large":{
-        "Arch":"HVM64"
+      "m1.xlarge": {
+        "Arch": "PV64"
       },
-      "c4.xlarge":{
-        "Arch":"HVM64"
+      "m2.2xlarge": {
+        "Arch": "PV64"
       },
-      "c4.2xlarge":{
-        "Arch":"HVM64"
+      "m2.4xlarge": {
+        "Arch": "PV64"
       },
-      "c4.4xlarge":{
-        "Arch":"HVM64"
+      "m2.xlarge": {
+        "Arch": "PV64"
       },
-      "c4.8xlarge":{
-        "Arch":"HVM64"
+      "m3.2xlarge": {
+        "Arch": "HVM64"
       },
-      "g2.2xlarge":{
-        "Arch":"HVMG2"
+      "m3.large": {
+        "Arch": "HVM64"
       },
-      "g2.8xlarge":{
-        "Arch":"HVMG2"
+      "m3.medium": {
+        "Arch": "HVM64"
       },
-      "r3.large":{
-        "Arch":"HVM64"
+      "m3.xlarge": {
+        "Arch": "HVM64"
       },
-      "r3.xlarge":{
-        "Arch":"HVM64"
+      "m4.10xlarge": {
+        "Arch": "HVM64"
       },
-      "r3.2xlarge":{
-        "Arch":"HVM64"
+      "m4.2xlarge": {
+        "Arch": "HVM64"
       },
-      "r3.4xlarge":{
-        "Arch":"HVM64"
+      "m4.4xlarge": {
+        "Arch": "HVM64"
       },
-      "r3.8xlarge":{
-        "Arch":"HVM64"
+      "m4.large": {
+        "Arch": "HVM64"
       },
-      "i2.xlarge":{
-        "Arch":"HVM64"
+      "m4.xlarge": {
+        "Arch": "HVM64"
       },
-      "i2.2xlarge":{
-        "Arch":"HVM64"
+      "r3.2xlarge": {
+        "Arch": "HVM64"
       },
-      "i2.4xlarge":{
-        "Arch":"HVM64"
+      "r3.4xlarge": {
+        "Arch": "HVM64"
       },
-      "i2.8xlarge":{
-        "Arch":"HVM64"
+      "r3.8xlarge": {
+        "Arch": "HVM64"
       },
-      "d2.xlarge":{
-        "Arch":"HVM64"
+      "r3.large": {
+        "Arch": "HVM64"
       },
-      "d2.2xlarge":{
-        "Arch":"HVM64"
+      "r3.xlarge": {
+        "Arch": "HVM64"
       },
-      "d2.4xlarge":{
-        "Arch":"HVM64"
+      "t1.micro": {
+        "Arch": "PV64"
       },
-      "d2.8xlarge":{
-        "Arch":"HVM64"
+      "t2.large": {
+        "Arch": "HVM64"
       },
-      "hi1.4xlarge":{
-        "Arch":"HVM64"
+      "t2.medium": {
+        "Arch": "HVM64"
       },
-      "hs1.8xlarge":{
-        "Arch":"HVM64"
+      "t2.micro": {
+        "Arch": "HVM64"
       },
-      "cr1.8xlarge":{
-        "Arch":"HVM64"
+      "t2.nano": {
+        "Arch": "HVM64"
       },
-      "cc2.8xlarge":{
-        "Arch":"HVM64"
+      "t2.small": {
+        "Arch": "HVM64"
       }
     },
-    "AWSInstanceType2NATArch":{
-      "t1.micro":{
-        "Arch":"NATPV64"
+    "AWSInstanceType2NATArch": {
+      "c1.medium": {
+        "Arch": "NATPV64"
       },
-      "t2.nano":{
-        "Arch":"NATHVM64"
+      "c1.xlarge": {
+        "Arch": "NATPV64"
       },
-      "t2.micro":{
-        "Arch":"NATHVM64"
+      "c3.2xlarge": {
+        "Arch": "NATHVM64"
       },
-      "t2.small":{
-        "Arch":"NATHVM64"
+      "c3.4xlarge": {
+        "Arch": "NATHVM64"
       },
-      "t2.medium":{
-        "Arch":"NATHVM64"
+      "c3.8xlarge": {
+        "Arch": "NATHVM64"
       },
-      "t2.large":{
-        "Arch":"NATHVM64"
+      "c3.large": {
+        "Arch": "NATHVM64"
       },
-      "m1.small":{
-        "Arch":"NATPV64"
+      "c3.xlarge": {
+        "Arch": "NATHVM64"
       },
-      "m1.medium":{
-        "Arch":"NATPV64"
+      "c4.2xlarge": {
+        "Arch": "NATHVM64"
       },
-      "m1.large":{
-        "Arch":"NATPV64"
+      "c4.4xlarge": {
+        "Arch": "NATHVM64"
       },
-      "m1.xlarge":{
-        "Arch":"NATPV64"
+      "c4.8xlarge": {
+        "Arch": "NATHVM64"
       },
-      "m2.xlarge":{
-        "Arch":"NATPV64"
+      "c4.large": {
+        "Arch": "NATHVM64"
       },
-      "m2.2xlarge":{
-        "Arch":"NATPV64"
+      "c4.xlarge": {
+        "Arch": "NATHVM64"
       },
-      "m2.4xlarge":{
-        "Arch":"NATPV64"
+      "cc2.8xlarge": {
+        "Arch": "NATHVM64"
       },
-      "m3.medium":{
-        "Arch":"NATHVM64"
+      "cr1.8xlarge": {
+        "Arch": "NATHVM64"
       },
-      "m3.large":{
-        "Arch":"NATHVM64"
+      "d2.2xlarge": {
+        "Arch": "NATHVM64"
       },
-      "m3.xlarge":{
-        "Arch":"NATHVM64"
+      "d2.4xlarge": {
+        "Arch": "NATHVM64"
       },
-      "m3.2xlarge":{
-        "Arch":"NATHVM64"
+      "d2.8xlarge": {
+        "Arch": "NATHVM64"
       },
-      "m4.large":{
-        "Arch":"NATHVM64"
+      "d2.xlarge": {
+        "Arch": "NATHVM64"
       },
-      "m4.xlarge":{
-        "Arch":"NATHVM64"
+      "g2.2xlarge": {
+        "Arch": "NATHVMG2"
       },
-      "m4.2xlarge":{
-        "Arch":"NATHVM64"
+      "g2.8xlarge": {
+        "Arch": "NATHVMG2"
       },
-      "m4.4xlarge":{
-        "Arch":"NATHVM64"
+      "hi1.4xlarge": {
+        "Arch": "NATHVM64"
       },
-      "m4.10xlarge":{
-        "Arch":"NATHVM64"
+      "hs1.8xlarge": {
+        "Arch": "NATHVM64"
       },
-      "c1.medium":{
-        "Arch":"NATPV64"
+      "i2.2xlarge": {
+        "Arch": "NATHVM64"
       },
-      "c1.xlarge":{
-        "Arch":"NATPV64"
+      "i2.4xlarge": {
+        "Arch": "NATHVM64"
       },
-      "c3.large":{
-        "Arch":"NATHVM64"
+      "i2.8xlarge": {
+        "Arch": "NATHVM64"
       },
-      "c3.xlarge":{
-        "Arch":"NATHVM64"
+      "i2.xlarge": {
+        "Arch": "NATHVM64"
       },
-      "c3.2xlarge":{
-        "Arch":"NATHVM64"
+      "m1.large": {
+        "Arch": "NATPV64"
       },
-      "c3.4xlarge":{
-        "Arch":"NATHVM64"
+      "m1.medium": {
+        "Arch": "NATPV64"
       },
-      "c3.8xlarge":{
-        "Arch":"NATHVM64"
+      "m1.small": {
+        "Arch": "NATPV64"
       },
-      "c4.large":{
-        "Arch":"NATHVM64"
+      "m1.xlarge": {
+        "Arch": "NATPV64"
       },
-      "c4.xlarge":{
-        "Arch":"NATHVM64"
+      "m2.2xlarge": {
+        "Arch": "NATPV64"
       },
-      "c4.2xlarge":{
-        "Arch":"NATHVM64"
+      "m2.4xlarge": {
+        "Arch": "NATPV64"
       },
-      "c4.4xlarge":{
-        "Arch":"NATHVM64"
+      "m2.xlarge": {
+        "Arch": "NATPV64"
       },
-      "c4.8xlarge":{
-        "Arch":"NATHVM64"
+      "m3.2xlarge": {
+        "Arch": "NATHVM64"
       },
-      "g2.2xlarge":{
-        "Arch":"NATHVMG2"
+      "m3.large": {
+        "Arch": "NATHVM64"
       },
-      "g2.8xlarge":{
-        "Arch":"NATHVMG2"
+      "m3.medium": {
+        "Arch": "NATHVM64"
       },
-      "r3.large":{
-        "Arch":"NATHVM64"
+      "m3.xlarge": {
+        "Arch": "NATHVM64"
       },
-      "r3.xlarge":{
-        "Arch":"NATHVM64"
+      "m4.10xlarge": {
+        "Arch": "NATHVM64"
       },
-      "r3.2xlarge":{
-        "Arch":"NATHVM64"
+      "m4.2xlarge": {
+        "Arch": "NATHVM64"
       },
-      "r3.4xlarge":{
-        "Arch":"NATHVM64"
+      "m4.4xlarge": {
+        "Arch": "NATHVM64"
       },
-      "r3.8xlarge":{
-        "Arch":"NATHVM64"
+      "m4.large": {
+        "Arch": "NATHVM64"
       },
-      "i2.xlarge":{
-        "Arch":"NATHVM64"
+      "m4.xlarge": {
+        "Arch": "NATHVM64"
       },
-      "i2.2xlarge":{
-        "Arch":"NATHVM64"
+      "r3.2xlarge": {
+        "Arch": "NATHVM64"
       },
-      "i2.4xlarge":{
-        "Arch":"NATHVM64"
+      "r3.4xlarge": {
+        "Arch": "NATHVM64"
       },
-      "i2.8xlarge":{
-        "Arch":"NATHVM64"
+      "r3.8xlarge": {
+        "Arch": "NATHVM64"
       },
-      "d2.xlarge":{
-        "Arch":"NATHVM64"
+      "r3.large": {
+        "Arch": "NATHVM64"
       },
-      "d2.2xlarge":{
-        "Arch":"NATHVM64"
+      "r3.xlarge": {
+        "Arch": "NATHVM64"
       },
-      "d2.4xlarge":{
-        "Arch":"NATHVM64"
+      "t1.micro": {
+        "Arch": "NATPV64"
       },
-      "d2.8xlarge":{
-        "Arch":"NATHVM64"
+      "t2.large": {
+        "Arch": "NATHVM64"
       },
-      "hi1.4xlarge":{
-        "Arch":"NATHVM64"
+      "t2.medium": {
+        "Arch": "NATHVM64"
       },
-      "hs1.8xlarge":{
-        "Arch":"NATHVM64"
+      "t2.micro": {
+        "Arch": "NATHVM64"
       },
-      "cr1.8xlarge":{
-        "Arch":"NATHVM64"
+      "t2.nano": {
+        "Arch": "NATHVM64"
       },
-      "cc2.8xlarge":{
-        "Arch":"NATHVM64"
+      "t2.small": {
+        "Arch": "NATHVM64"
       }
     },
-    "AWSRegionArch2AMI":{
-      "us-east-1":{
-        "PV64":"ami-5fb8c835",
-        "HVM64":"ami-60b6c60a",
-        "HVMG2":"ami-e998ea83"
+    "AWSRegionArch2AMI": {
+      "ap-northeast-1": {
+        "HVM64": "ami-383c1956",
+        "HVMG2": "ami-08e5c166",
+        "PV64": "ami-393c1957"
       },
-      "us-west-2":{
-        "PV64":"ami-d93622b8",
-        "HVM64":"ami-f0091d91",
-        "HVMG2":"ami-315f4850"
+      "ap-northeast-2": {
+        "HVM64": "ami-249b554a",
+        "HVMG2": "NOT_SUPPORTED",
+        "PV64": "NOT_SUPPORTED"
       },
-      "us-west-1":{
-        "PV64":"ami-56ea8636",
-        "HVM64":"ami-d5ea86b5",
-        "HVMG2":"ami-943956f4"
+      "ap-southeast-1": {
+        "HVM64": "ami-c9b572aa",
+        "HVMG2": "ami-5a15d239",
+        "PV64": "ami-34bd7a57"
       },
-      "eu-west-1":{
-        "PV64":"ami-95e33ce6",
-        "HVM64":"ami-bff32ccc",
-        "HVMG2":"ami-83fd23f0"
+      "ap-southeast-2": {
+        "HVM64": "ami-48d38c2b",
+        "HVMG2": "ami-0c1a446f",
+        "PV64": "ami-ced887ad"
       },
-      "eu-central-1":{
-        "PV64":"ami-794a5915",
-        "HVM64":"ami-bc5b48d0",
-        "HVMG2":"ami-ba1a09d6"
+      "cn-north-1": {
+        "HVM64": "ami-43a36a2e",
+        "HVMG2": "NOT_SUPPORTED",
+        "PV64": "ami-18ac6575"
       },
-      "ap-northeast-1":{
-        "PV64":"ami-393c1957",
-        "HVM64":"ami-383c1956",
-        "HVMG2":"ami-08e5c166"
+      "eu-central-1": {
+        "HVM64": "ami-bc5b48d0",
+        "HVMG2": "ami-ba1a09d6",
+        "PV64": "ami-794a5915"
       },
-      "ap-northeast-2":{
-        "PV64":"NOT_SUPPORTED",
-        "HVM64":"ami-249b554a",
-        "HVMG2":"NOT_SUPPORTED"
+      "eu-west-1": {
+        "HVM64": "ami-bff32ccc",
+        "HVMG2": "ami-83fd23f0",
+        "PV64": "ami-95e33ce6"
       },
-      "ap-southeast-1":{
-        "PV64":"ami-34bd7a57",
-        "HVM64":"ami-c9b572aa",
-        "HVMG2":"ami-5a15d239"
+      "sa-east-1": {
+        "HVM64": "ami-6817af04",
+        "HVMG2": "NOT_SUPPORTED",
+        "PV64": "ami-7d15ad11"
       },
-      "ap-southeast-2":{
-        "PV64":"ami-ced887ad",
-        "HVM64":"ami-48d38c2b",
-        "HVMG2":"ami-0c1a446f"
+      "us-east-1": {
+        "HVM64": "ami-60b6c60a",
+        "HVMG2": "ami-e998ea83",
+        "PV64": "ami-5fb8c835"
       },
-      "sa-east-1":{
-        "PV64":"ami-7d15ad11",
-        "HVM64":"ami-6817af04",
-        "HVMG2":"NOT_SUPPORTED"
+      "us-west-1": {
+        "HVM64": "ami-d5ea86b5",
+        "HVMG2": "ami-943956f4",
+        "PV64": "ami-56ea8636"
       },
-      "cn-north-1":{
-        "PV64":"ami-18ac6575",
-        "HVM64":"ami-43a36a2e",
-        "HVMG2":"NOT_SUPPORTED"
+      "us-west-2": {
+        "HVM64": "ami-f0091d91",
+        "HVMG2": "ami-315f4850",
+        "PV64": "ami-d93622b8"
       }
     },
-    "Region2Principal":{
-      "us-east-1":{
-        "EC2Principal":"ec2.amazonaws.com",
-        "OpsWorksPrincipal":"opsworks.amazonaws.com"
+    "Region2Principal": {
+      "ap-northeast-1": {
+        "EC2Principal": "ec2.amazonaws.com",
+        "OpsWorksPrincipal": "opsworks.amazonaws.com"
       },
-      "us-west-2":{
-        "EC2Principal":"ec2.amazonaws.com",
-        "OpsWorksPrincipal":"opsworks.amazonaws.com"
+      "ap-northeast-2": {
+        "EC2Principal": "ec2.amazonaws.com",
+        "OpsWorksPrincipal": "opsworks.amazonaws.com"
       },
-      "us-west-1":{
-        "EC2Principal":"ec2.amazonaws.com",
-        "OpsWorksPrincipal":"opsworks.amazonaws.com"
+      "ap-southeast-1": {
+        "EC2Principal": "ec2.amazonaws.com",
+        "OpsWorksPrincipal": "opsworks.amazonaws.com"
       },
-      "eu-west-1":{
-        "EC2Principal":"ec2.amazonaws.com",
-        "OpsWorksPrincipal":"opsworks.amazonaws.com"
+      "ap-southeast-2": {
+        "EC2Principal": "ec2.amazonaws.com",
+        "OpsWorksPrincipal": "opsworks.amazonaws.com"
       },
-      "ap-southeast-1":{
-        "EC2Principal":"ec2.amazonaws.com",
-        "OpsWorksPrincipal":"opsworks.amazonaws.com"
+      "cn-north-1": {
+        "EC2Principal": "ec2.amazonaws.com.cn",
+        "OpsWorksPrincipal": "opsworks.amazonaws.com.cn"
       },
-      "ap-northeast-1":{
-        "EC2Principal":"ec2.amazonaws.com",
-        "OpsWorksPrincipal":"opsworks.amazonaws.com"
+      "eu-central-1": {
+        "EC2Principal": "ec2.amazonaws.com",
+        "OpsWorksPrincipal": "opsworks.amazonaws.com"
       },
-      "ap-northeast-2":{
-        "EC2Principal":"ec2.amazonaws.com",
-        "OpsWorksPrincipal":"opsworks.amazonaws.com"
+      "eu-west-1": {
+        "EC2Principal": "ec2.amazonaws.com",
+        "OpsWorksPrincipal": "opsworks.amazonaws.com"
       },
-      "ap-southeast-2":{
-        "EC2Principal":"ec2.amazonaws.com",
-        "OpsWorksPrincipal":"opsworks.amazonaws.com"
+      "sa-east-1": {
+        "EC2Principal": "ec2.amazonaws.com",
+        "OpsWorksPrincipal": "opsworks.amazonaws.com"
       },
-      "sa-east-1":{
-        "EC2Principal":"ec2.amazonaws.com",
-        "OpsWorksPrincipal":"opsworks.amazonaws.com"
+      "us-east-1": {
+        "EC2Principal": "ec2.amazonaws.com",
+        "OpsWorksPrincipal": "opsworks.amazonaws.com"
       },
-      "cn-north-1":{
-        "EC2Principal":"ec2.amazonaws.com.cn",
-        "OpsWorksPrincipal":"opsworks.amazonaws.com.cn"
+      "us-west-1": {
+        "EC2Principal": "ec2.amazonaws.com",
+        "OpsWorksPrincipal": "opsworks.amazonaws.com"
       },
-      "eu-central-1":{
-        "EC2Principal":"ec2.amazonaws.com",
-        "OpsWorksPrincipal":"opsworks.amazonaws.com"
+      "us-west-2": {
+        "EC2Principal": "ec2.amazonaws.com",
+        "OpsWorksPrincipal": "opsworks.amazonaws.com"
       }
     },
-    "Region2ARNPrefix":{
-      "us-east-1":{
-        "ARNPrefix":"arn:aws:"
+    "Region2ARNPrefix": {
+      "ap-northeast-1": {
+        "ARNPrefix": "arn:aws:"
       },
-      "us-west-1":{
-        "ARNPrefix":"arn:aws:"
+      "ap-northeast-2": {
+        "ARNPrefix": "arn:aws:"
       },
-      "us-west-2":{
-        "ARNPrefix":"arn:aws:"
+      "ap-southeast-1": {
+        "ARNPrefix": "arn:aws:"
       },
-      "eu-west-1":{
-        "ARNPrefix":"arn:aws:"
+      "ap-southeast-2": {
+        "ARNPrefix": "arn:aws:"
       },
-      "ap-northeast-1":{
-        "ARNPrefix":"arn:aws:"
+      "cn-north-1": {
+        "ARNPrefix": "arn:aws-cn:"
       },
-      "ap-northeast-2":{
-        "ARNPrefix":"arn:aws:"
+      "eu-central-1": {
+        "ARNPrefix": "arn:aws:"
       },
-      "ap-southeast-1":{
-        "ARNPrefix":"arn:aws:"
+      "eu-west-1": {
+        "ARNPrefix": "arn:aws:"
       },
-      "ap-southeast-2":{
-        "ARNPrefix":"arn:aws:"
+      "sa-east-1": {
+        "ARNPrefix": "arn:aws:"
       },
-      "sa-east-1":{
-        "ARNPrefix":"arn:aws:"
+      "us-east-1": {
+        "ARNPrefix": "arn:aws:"
       },
-      "cn-north-1":{
-        "ARNPrefix":"arn:aws-cn:"
+      "us-west-1": {
+        "ARNPrefix": "arn:aws:"
       },
-      "eu-central-1":{
-        "ARNPrefix":"arn:aws:"
+      "us-west-2": {
+        "ARNPrefix": "arn:aws:"
       }
     }
   },
-
-  "Conditions" : {
-    "cEnableCloudFrontAndWaf" : {"Fn::Equals" : [{"Ref" : "pEnableCloudFrontAndWaf"}, "true"]},
-    "cEnableConfig" : {"Fn::Equals" : [{"Ref" : "pEnableConfig"}, "true"]}
+  "Conditions": {
+    "cEnableCloudFrontAndWaf": {
+      "Fn::Equals": [
+        {
+          "Ref": "pEnableCloudFrontAndWaf"
+        },
+        "true"
+      ]
+    },
+    "cEnableConfig": {
+      "Fn::Equals": [
+        {
+          "Ref": "pEnableConfig"
+        },
+        "true"
+      ]
+    }
   },
-
-  "Resources":{
-    "LogRole":{
-      "Type":"AWS::IAM::Role",
-      "DependsOn":[
+  "Resources": {
+    "LogRole": {
+      "Type": "AWS::IAM::Role",
+      "DependsOn": [
         "DynamoDBStack"
       ],
-      "Properties":{
-        "AssumeRolePolicyDocument":{
-          "Statement":[
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
             {
-              "Effect":"Allow",
-              "Principal":{
-                "Service":[
+              "Action": [
+                "sts:AssumeRole"
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
                   "ec2.amazonaws.com"
                 ]
-              },
-              "Action":[
-                "sts:AssumeRole"
-              ]
+              }
             }
           ]
         },
-        "Path":"/",
-        "Policies":[
+        "Path": "/",
+        "Policies": [
           {
-            "PolicyName":"AllowAll",
-            "PolicyDocument":{
-              "Statement":[
+            "PolicyDocument": {
+              "Statement": [
                 {
-                  "Effect":"Allow",
-                  "Action":"*",
-                  "Resource":"*"
+                  "Action": "*",
+                  "Effect": "Allow",
+                  "Resource": "*"
                 }
               ]
-            }
+            },
+            "PolicyName": "AllowAll"
           }
         ]
       }
     },
-    "LogRoleInstanceProfile":{
-      "Type":"AWS::IAM::InstanceProfile",
-      "DependsOn":[
+    "LogRoleInstanceProfile": {
+      "Type": "AWS::IAM::InstanceProfile",
+      "DependsOn": [
         "DynamoDBStack"
       ],
-      "Properties":{
-        "Path":"/",
-        "Roles":[
+      "Properties": {
+        "Path": "/",
+        "Roles": [
           {
-            "Ref":"LogRole"
+            "Ref": "LogRole"
           }
         ]
       }
     },
-    "CloudFormationLogs":{
-      "Type":"AWS::Logs::LogGroup",
-      "DependsOn":[
+    "CloudFormationLogs": {
+      "Type": "AWS::Logs::LogGroup",
+      "DependsOn": [
         "DynamoDBStack"
       ],
-      "Properties":{
-        "RetentionInDays":7
+      "Properties": {
+        "RetentionInDays": 7
       }
     },
-    "WebServerInstance":{
-      "Type":"AWS::EC2::Instance",
-      "DependsOn":[
+    "WebServerInstance": {
+      "Type": "AWS::EC2::Instance",
+      "DependsOn": [
         "DynamoDBStack",
         "PipelineStoreStack",
         "VPCStack"
       ],
-      "Metadata":{
-        "AWS::CloudFormation::Init":{
-          "configSets":{
-            "install_all":[
+      "Properties": {
+        "NetworkInterfaces": [
+          {
+            "AssociatePublicIpAddress": true,
+            "DeleteOnTermination": true,
+            "DeviceIndex": "0",
+            "GroupSet": [
+              {
+                "Ref": "InstanceSecurityGroup"
+              }
+            ],
+            "SubnetId": {
+              "Fn::GetAtt": [
+                "VPCStack",
+                "Outputs.SubnetId"
+              ]
+            }
+          }
+        ],
+        "KeyName": {
+          "Ref": "KeyName"
+        },
+        "Tags": [
+          {
+            "Key": "Application",
+            "Value": {
+              "Ref": "AWS::StackId"
+            }
+          },
+          {
+            "Key": "Name",
+            "Value": {
+              "Ref": "AWS::StackName"
+            }
+          }
+        ],
+        "InstanceType": {
+          "Ref": "InstanceType"
+        },
+        "IamInstanceProfile": {
+          "Ref": "LogRoleInstanceProfile"
+        },
+        "ImageId": {
+          "Fn::FindInMap": [
+            "AWSRegionArch2AMI",
+            {
+              "Ref": "AWS::Region"
+            },
+            {
+              "Fn::FindInMap": [
+                "AWSInstanceType2Arch",
+                {
+                  "Ref": "InstanceType"
+                },
+                "Arch"
+              ]
+            }
+          ]
+        },
+        "UserData": {
+          "Fn::Base64": {
+            "Fn::Join": [
+              "",
+              [
+                "#!/bin/bash -xe\n",
+                "yum update -y aws-cfn-bootstrap\n",
+                "/opt/aws/bin/cfn-init -v ",
+                "         --stack ",
+                {
+                  "Ref": "AWS::StackName"
+                },
+                "         --resource WebServerInstance ",
+                "         --configsets install_all ",
+                "         --region ",
+                {
+                  "Ref": "AWS::Region"
+                },
+                "\n",
+                "yum install -y git\n",
+                "git clone -b ",
+                {
+                  "Ref": "pPipelinesBranch"
+                },
+                " ",
+                {
+                  "Ref": "pPipelinesRepo"
+                },
+                " /opt/pipelines\n",
+                "export AWS_DEFAULT_REGION=",
+                {
+                  "Ref": "AWS::Region"
+                },
+                "\n",
+                "cd /opt/pipelines\n",
+                "./bin/configure-jenkins.sh ",
+                {
+                  "Fn::GetAtt": [
+                    "PipelineStoreStack",
+                    "Outputs.StackName"
+                  ]
+                },
+                "\n",
+                "/opt/aws/bin/cfn-signal -e $? ",
+                "         --stack ",
+                {
+                  "Ref": "AWS::StackName"
+                },
+                "         --resource WebServerInstance ",
+                "         --region ",
+                {
+                  "Ref": "AWS::Region"
+                },
+                "\n"
+              ]
+            ]
+          }
+        }
+      },
+      "CreationPolicy": {
+        "ResourceSignal": {
+          "Count": 1,
+          "Timeout": "PT10M"
+        }
+      },
+      "Metadata": {
+        "AWS::CloudFormation::Init": {
+          "configSets": {
+            "install_all": [
               "install_cfn",
               "install_app",
               "install_logs"
             ]
           },
-          "install_cfn":{
-            "files":{
-              "/etc/cfn/cfn-hup.conf":{
-                "content":{
-                  "Fn::Join":[
-                    "",
-                    [
-                      "[main]\n",
-                      "stack=",
-                      {
-                        "Ref":"AWS::StackId"
-                      },
-                      "\n",
-                      "region=",
-                      {
-                        "Ref":"AWS::Region"
-                      },
-                      "\n"
-                    ]
-                  ]
-                },
-                "mode":"000400",
-                "owner":"root",
-                "group":"root"
-              },
-              "/etc/cfn/hooks.d/cfn-auto-reloader.conf":{
-                "content":{
-                  "Fn::Join":[
-                    "",
-                    [
-                      "[cfn-auto-reloader-hook]\n",
-                      "triggers=post.update\n",
-                      "path=Resources.WebServerInstance.Metadata.AWS::CloudFormation::Init\n",
-                      "action=/opt/aws/bin/cfn-init -v ",
-                      "         --stack ",
-                      {
-                        "Ref":"AWS::StackName"
-                      },
-                      "         --resource WebServerInstance ",
-                      "         --configsets install_all ",
-                      "         --region ",
-                      {
-                        "Ref":"AWS::Region"
-                      },
-                      "\n",
-                      "runas=root\n"
-                    ]
-                  ]
-                }
-              }
-            },
-            "services":{
-              "sysvinit":{
-                "cfn-hup":{
-                  "enabled":"true",
-                  "ensureRunning":"true",
-                  "files":[
-                    "/etc/cfn/cfn-hup.conf",
-                    "/etc/cfn/hooks.d/cfn-auto-reloader.conf"
-                  ]
-                }
-              }
-            }
-          },
-          "install_app":{
-            "packages":{
-              "yum":{
-                "httpd":[
-
-                ]
-              }
-            },
-            "files":{
-              "/var/www/html/index.html":{
-                "content":{
-                  "Fn::Join":[
-                    "\n",
+          "install_app": {
+            "files": {
+              "/var/www/html/index.html": {
+                "content": {
+                  "Fn::Join": [
+                    "\n                     ",
                     [
                       "<img src=\"",
                       {
-                        "Fn::FindInMap":[
+                        "Fn::FindInMap": [
                           "Region2Examples",
                           {
-                            "Ref":"AWS::Region"
+                            "Ref": "AWS::Region"
                           },
                           "Examples"
                         ]
@@ -879,32 +944,124 @@
                     ]
                   ]
                 },
-                "mode":"000644",
-                "owner":"root",
-                "group":"root"
+                "group": "root",
+                "mode": "000644",
+                "owner": "root"
               }
             },
-            "services":{
-              "sysvinit":{
-                "httpd":{
-                  "enabled":"true",
-                  "ensureRunning":"true"
-                }
-              }
-            }
-          },
-          "install_logs":{
-            "packages":{
-              "yum":{
-                "awslogs":[
+            "packages": {
+              "yum": {
+                "httpd": [
 
                 ]
               }
             },
-            "files":{
-              "/etc/awslogs/awslogs.conf":{
-                "content":{
-                  "Fn::Join":[
+            "services": {
+              "sysvinit": {
+                "httpd": {
+                  "enabled": "true",
+                  "ensureRunning": "true"
+                }
+              }
+            }
+          },
+          "install_cfn": {
+            "files": {
+              "/etc/cfn/cfn-hup.conf": {
+                "content": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "[main]\n",
+                      "stack=",
+                      {
+                        "Ref": "AWS::StackId"
+                      },
+                      "\n",
+                      "region=",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      "\n"
+                    ]
+                  ]
+                },
+                "group": "root",
+                "mode": "000400",
+                "owner": "root"
+              },
+              "/etc/cfn/hooks.d/cfn-auto-reloader.conf": {
+                "content": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "[cfn-auto-reloader-hook]\n",
+                      "triggers=post.update\n",
+                      "path=Resources.WebServerInstance.Metadata.AWS::CloudFormation::Init\n",
+                      "action=/opt/aws/bin/cfn-init -v ",
+                      "         --stack ",
+                      {
+                        "Ref": "AWS::StackName"
+                      },
+                      "         --resource WebServerInstance ",
+                      "         --configsets install_all ",
+                      "         --region ",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      "\n",
+                      "runas=root\n"
+                    ]
+                  ]
+                }
+              }
+            },
+            "services": {
+              "sysvinit": {
+                "cfn-hup": {
+                  "enabled": "true",
+                  "ensureRunning": "true",
+                  "files": [
+                    "/etc/cfn/cfn-hup.conf",
+                    "/etc/cfn/hooks.d/cfn-auto-reloader.conf"
+                  ]
+                }
+              }
+            }
+          },
+          "install_logs": {
+            "commands": {
+              "01_create_state_directory": {
+                "command": "mkdir -p /var/awslogs/state"
+              },
+              "02_create_my_tmp_directory": {
+                "command": "mkdir -p /tmp/pmd"
+              }
+            },
+            "files": {
+              "/etc/awslogs/awscli.conf": {
+                "content": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "[plugins]\n",
+                      "cwlogs = cwlogs\n",
+                      "[default]\n",
+                      "region = ",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      "\n"
+                    ]
+                  ]
+                },
+                "group": "root",
+                "mode": "000444",
+                "owner": "root"
+              },
+              "/etc/awslogs/awslogs.conf": {
+                "content": {
+                  "Fn::Join": [
                     "",
                     [
                       "[general]\n",
@@ -913,7 +1070,7 @@
                       "file = /var/log/cloud-init.log\n",
                       "log_group_name = ",
                       {
-                        "Ref":"CloudFormationLogs"
+                        "Ref": "CloudFormationLogs"
                       },
                       "\n",
                       "log_stream_name = {instance_id}/cloud-init.log\n",
@@ -922,7 +1079,7 @@
                       "file = /var/log/cloud-init-output.log\n",
                       "log_group_name = ",
                       {
-                        "Ref":"CloudFormationLogs"
+                        "Ref": "CloudFormationLogs"
                       },
                       "\n",
                       "log_stream_name = {instance_id}/cloud-init-output.log\n",
@@ -931,7 +1088,7 @@
                       "file = /var/log/cfn-init.log\n",
                       "log_group_name = ",
                       {
-                        "Ref":"CloudFormationLogs"
+                        "Ref": "CloudFormationLogs"
                       },
                       "\n",
                       "log_stream_name = {instance_id}/cfn-init.log\n",
@@ -940,7 +1097,7 @@
                       "file = /var/log/cfn-hup.log\n",
                       "log_group_name = ",
                       {
-                        "Ref":"CloudFormationLogs"
+                        "Ref": "CloudFormationLogs"
                       },
                       "\n",
                       "log_stream_name = {instance_id}/cfn-hup.log\n",
@@ -949,7 +1106,7 @@
                       "file = /var/log/cfn-wire.log\n",
                       "log_group_name = ",
                       {
-                        "Ref":"CloudFormationLogs"
+                        "Ref": "CloudFormationLogs"
                       },
                       "\n",
                       "log_stream_name = {instance_id}/cfn-wire.log\n",
@@ -958,7 +1115,7 @@
                       "file = /var/log/httpd/*\n",
                       "log_group_name = ",
                       {
-                        "Ref":"CloudFormationLogs"
+                        "Ref": "CloudFormationLogs"
                       },
                       "\n",
                       "log_stream_name = {instance_id}/httpd\n",
@@ -966,45 +1123,24 @@
                     ]
                   ]
                 },
-                "mode":"000444",
-                "owner":"root",
-                "group":"root"
-              },
-              "/etc/awslogs/awscli.conf":{
-                "content":{
-                  "Fn::Join":[
-                    "",
-                    [
-                      "[plugins]\n",
-                      "cwlogs = cwlogs\n",
-                      "[default]\n",
-                      "region = ",
-                      {
-                        "Ref":"AWS::Region"
-                      },
-                      "\n"
-                    ]
-                  ]
-                },
-                "mode":"000444",
-                "owner":"root",
-                "group":"root"
+                "group": "root",
+                "mode": "000444",
+                "owner": "root"
               }
             },
-            "commands":{
-              "01_create_state_directory":{
-                "command":"mkdir -p /var/awslogs/state"
-              },
-              "02_create_my_tmp_directory":{
-                "command":"mkdir -p /tmp/pmd"
+            "packages": {
+              "yum": {
+                "awslogs": [
+
+                ]
               }
             },
-            "services":{
-              "sysvinit":{
-                "awslogs":{
-                  "enabled":"true",
-                  "ensureRunning":"true",
-                  "files":[
+            "services": {
+              "sysvinit": {
+                "awslogs": {
+                  "enabled": "true",
+                  "ensureRunning": "true",
+                  "files": [
                     "/etc/awslogs/awslogs.conf"
                   ]
                 }
@@ -1012,251 +1148,135 @@
             }
           }
         }
-      },
-      "Properties":{
-        "NetworkInterfaces": [
-          {
-             "AssociatePublicIpAddress" : true,
-             "DeleteOnTermination" : true,
-             "DeviceIndex" : "0",
-             "GroupSet": [
-               {
-                 "Ref":"InstanceSecurityGroup"
-               }
-             ],
-             "SubnetId" : {
-               "Fn::GetAtt": [
-                 "VPCStack",
-                 "Outputs.SubnetId"
-               ]
-             }
-          }
-        ],
-        "KeyName":{
-          "Ref":"KeyName"
-        },
-        "Tags":[
-          {
-            "Key":"Application",
-            "Value":{
-              "Ref":"AWS::StackId"
-            }
-          },
-          {
-            "Key":"Name",
-            "Value":{
-              "Ref":"AWS::StackName"
-            }
-          }
-        ],
-        "InstanceType":{
-          "Ref":"InstanceType"
-        },
-        "IamInstanceProfile":{
-          "Ref":"LogRoleInstanceProfile"
-        },
-        "ImageId":{
-          "Fn::FindInMap":[
-            "AWSRegionArch2AMI",
-            {
-              "Ref":"AWS::Region"
-            },
-            {
-              "Fn::FindInMap":[
-                "AWSInstanceType2Arch",
-                {
-                  "Ref":"InstanceType"
-                },
-                "Arch"
-              ]
-            }
-          ]
-        },
-        "UserData":{
-          "Fn::Base64":{
-            "Fn::Join":[
-              "",
-              [
-                "#!/bin/bash -xe\n",
-                "yum update -y aws-cfn-bootstrap\n",
-                "/opt/aws/bin/cfn-init -v ",
-                "         --stack ",
-                {
-                  "Ref":"AWS::StackName"
-                },
-                "         --resource WebServerInstance ",
-                "         --configsets install_all ",
-                "         --region ",
-                {
-                  "Ref":"AWS::Region"
-                },
-                "\n",
-                "yum install -y git\n",
-                "git clone -b ",
-                {
-                  "Ref":"pPipelinesBranch"
-                },
-                " ",
-                {
-                  "Ref":"pPipelinesRepo"
-                },
-                " /opt/pipelines\n",
-                "export AWS_DEFAULT_REGION=",
-                {
-                  "Ref":"AWS::Region"
-                },
-                "\n",
-                "cd /opt/pipelines\n",
-                "./bin/configure-jenkins.sh ",
-                {
-                  "Fn::GetAtt":[
-                    "PipelineStoreStack",
-                    "Outputs.StackName"
-                  ]
-                },
-                "\n",
-                "/opt/aws/bin/cfn-signal -e $? ",
-                "         --stack ",
-                {
-                  "Ref":"AWS::StackName"
-                },
-                "         --resource WebServerInstance ",
-                "         --region ",
-                {
-                  "Ref":"AWS::Region"
-                },
-                "\n"
-              ]
-            ]
-          }
-        }
-      },
-      "CreationPolicy":{
-        "ResourceSignal":{
-          "Count":1,
-          "Timeout":"PT10M"
-        }
       }
     },
-    "InstanceSecurityGroup":{
-      "Type":"AWS::EC2::SecurityGroup",
-      "Properties":{
+    "InstanceSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
         "VpcId": {
           "Fn::GetAtt": [
             "VPCStack",
             "Outputs.VPC"
           ]
         },
-        "GroupDescription":"Enable SSH access and HTTP access on the inbound port",
-        "SecurityGroupIngress":[
+        "GroupDescription": "Enable SSH access and HTTP access on the inbound port",
+        "SecurityGroupIngress": [
           {
-            "IpProtocol":"tcp",
-            "FromPort":"22",
-            "ToPort":"22",
-            "CidrIp":{
-              "Ref":"SSHLocation"
-            }
+            "CidrIp": {
+              "Ref": "SSHLocation"
+            },
+            "FromPort": "22",
+            "IpProtocol": "tcp",
+            "ToPort": "22"
           },
           {
-            "IpProtocol":"tcp",
-            "FromPort":"80",
-            "ToPort":"80",
-            "CidrIp":"0.0.0.0/0"
+            "CidrIp": "0.0.0.0/0",
+            "FromPort": "80",
+            "IpProtocol": "tcp",
+            "ToPort": "80"
+          }
+        ],
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "70.138.67.94/32",
+            "FromPort": "-1",
+            "IpProtocol": "tcp",
+            "ToPort": "-1"
           }
         ]
       }
     },
-    "DynamoDBStack":{
-      "Type":"AWS::CloudFormation::Stack",
-      "Properties":{
-        "TemplateURL":{
-          "Fn::Join":[
+    "DynamoDBStack": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": {
+          "Fn::Join": [
             "",
             [
               {
-                "Ref":"BaseTemplateURL"
+                "Ref": "BaseTemplateURL"
               },
               {
-                "Ref":"DDBCFNTemplateFile"
+                "Ref": "DDBCFNTemplateFile"
               }
             ]
           ]
         },
-        "TimeoutInMinutes":"60",
-        "Parameters":{
-          "DDBTableName":{
-            "Ref":"DDBTableName"
+        "TimeoutInMinutes": "60",
+        "Parameters": {
+          "DDBTableName": {
+            "Ref": "DDBTableName"
           }
         }
       }
     },
-    "VPCStack":{
-      "Type":"AWS::CloudFormation::Stack",
-      "Properties":{
-        "TemplateURL":{
-          "Fn::Join":[
+    "VPCStack": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": {
+          "Fn::Join": [
             "",
             [
               {
-                "Ref":"BaseTemplateURL"
+                "Ref": "BaseTemplateURL"
               },
               {
-                "Ref":"VPCCFNTemplateFile"
+                "Ref": "VPCCFNTemplateFile"
               }
             ]
           ]
         },
-        "TimeoutInMinutes":"60"
+        "TimeoutInMinutes": "60"
       }
     },
-    "IAMStack":{
-      "Type":"AWS::CloudFormation::Stack",
-      "Properties":{
-        "TemplateURL":{
-          "Fn::Join":[
+    "IAMStack": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": {
+          "Fn::Join": [
             "",
             [
               {
-                "Ref":"BaseTemplateURL"
+                "Ref": "BaseTemplateURL"
               },
               {
-                "Ref":"IAMCFNTemplateFile"
+                "Ref": "IAMCFNTemplateFile"
               }
             ]
           ]
         },
-        "TimeoutInMinutes":"60"
+        "TimeoutInMinutes": "60"
       }
     },
-    "ENIStack":{
-      "Type":"AWS::CloudFormation::Stack",
-      "DependsOn":[
+    "ENIStack": {
+      "Type": "AWS::CloudFormation::Stack",
+      "DependsOn": [
         "VPCStack"
       ],
-      "Properties":{
-        "TemplateURL":{
-          "Fn::Join":[
+      "Properties": {
+        "TemplateURL": {
+          "Fn::Join": [
             "",
             [
               {
-                "Ref":"BaseTemplateURL"
+                "Ref": "BaseTemplateURL"
               },
               {
-                "Ref":"ENICFNTemplateFile"
+                "Ref": "ENICFNTemplateFile"
               }
             ]
           ]
         },
-        "TimeoutInMinutes":"60",
-        "Parameters":{
-          "Hostname":{
-            "Ref":"AWS::StackName"
+        "TimeoutInMinutes": "60",
+        "Parameters": {
+          "Domain": {
+            "Ref": "Domain"
           },
-          "Domain":{
-            "Ref":"Domain"
+          "Hostname": {
+            "Ref": "AWS::StackName"
           },
-          "SubnetId":{
-            "Fn::GetAtt":[
+          "SubnetId": {
+            "Fn::GetAtt": [
               "VPCStack",
               "Outputs.SubnetId"
             ]
@@ -1264,80 +1284,35 @@
         }
       }
     },
-    "PipelineStoreStack":{
-      "Type":"AWS::CloudFormation::Stack",
-      "DependsOn":[
+    "PipelineStoreStack": {
+      "Type": "AWS::CloudFormation::Stack",
+      "DependsOn": [
         "DynamoDBStack",
         "VPCStack",
         "IAMStack",
         "ZapStack"
       ],
-      "Properties":{
-        "TemplateURL":{
-          "Fn::Join":[
+      "Properties": {
+        "TemplateURL": {
+          "Fn::Join": [
             "",
             [
               {
-                "Ref":"BaseTemplateURL"
+                "Ref": "BaseTemplateURL"
               },
               {
-                "Ref":"PipelineStoreCFNTemplateFile"
+                "Ref": "PipelineStoreCFNTemplateFile"
               }
             ]
           ]
         },
-        "TimeoutInMinutes":"60",
-        "Parameters":{
-          "UUID":{
-            "Ref":"AWS::StackName"
+        "TimeoutInMinutes": "60",
+        "Parameters": {
+          "Branch": {
+            "Ref": "Branch"
           },
-          "MasterStackName":{
-            "Ref":"AWS::StackName"
-          },
-          "DromedaryS3Bucket":{
-            "Ref":"AWS::AccountId"
-          },
-          "DemoResultsBucket":{
-            "Ref":"pDemoResultsBucket"
-          },
-          "Branch":{
-            "Ref":"Branch"
-          },
-          "KeyName":{
-            "Ref":"KeyName"
-          },
-          "Hostname":{
-            "Ref":"AWS::StackName"
-          },
-          "ProdHostedZone":{
-            "Ref":"ProdHostedZone"
-          },
-          "VPCStackName":{
-            "Fn::GetAtt":[
-              "VPCStack",
-              "Outputs.StackName"
-            ]
-          },
-          "DDBStackName":{
-            "Fn::GetAtt":[
-              "DynamoDBStack",
-              "Outputs.StackName"
-            ]
-          },
-          "IAMStackName":{
-            "Fn::GetAtt":[
-              "IAMStack",
-              "Outputs.StackName"
-            ]
-          },
-          "ENIStackName":{
-            "Fn::GetAtt":[
-              "ENIStack",
-              "Outputs.StackName"
-            ]
-          },
-          "ConfigStackName":{
-            "Fn::If" : [
+          "ConfigStackName": {
+            "Fn::If": [
               "cEnableConfig",
               {
                 "Fn::GetAtt": [
@@ -1345,11 +1320,43 @@
                   "Outputs.StackName"
                 ]
               },
-              { "Ref" : "AWS::NoValue" }
+              {
+                "Ref": "AWS::NoValue"
+              }
             ]
           },
-          "LambdaConfigStackName":{
-            "Fn::If" : [
+          "DDBStackName": {
+            "Fn::GetAtt": [
+              "DynamoDBStack",
+              "Outputs.StackName"
+            ]
+          },
+          "DemoResultsBucket": {
+            "Ref": "pDemoResultsBucket"
+          },
+          "DromedaryS3Bucket": {
+            "Ref": "AWS::AccountId"
+          },
+          "ENIStackName": {
+            "Fn::GetAtt": [
+              "ENIStack",
+              "Outputs.StackName"
+            ]
+          },
+          "Hostname": {
+            "Ref": "AWS::StackName"
+          },
+          "IAMStackName": {
+            "Fn::GetAtt": [
+              "IAMStack",
+              "Outputs.StackName"
+            ]
+          },
+          "KeyName": {
+            "Ref": "KeyName"
+          },
+          "LambdaConfigStackName": {
+            "Fn::If": [
               "cEnableConfig",
               {
                 "Fn::GetAtt": [
@@ -1357,11 +1364,28 @@
                   "Outputs.StackName"
                 ]
               },
-              { "Ref" : "AWS::NoValue" }
+              {
+                "Ref": "AWS::NoValue"
+              }
             ]
           },
-          "ZapStackName":{
-            "Fn::GetAtt":[
+          "MasterStackName": {
+            "Ref": "AWS::StackName"
+          },
+          "ProdHostedZone": {
+            "Ref": "ProdHostedZone"
+          },
+          "UUID": {
+            "Ref": "AWS::StackName"
+          },
+          "VPCStackName": {
+            "Fn::GetAtt": [
+              "VPCStack",
+              "Outputs.StackName"
+            ]
+          },
+          "ZapStackName": {
+            "Fn::GetAtt": [
               "ZapStack",
               "Outputs.StackName"
             ]
@@ -1369,73 +1393,130 @@
         }
       }
     },
-    "ZapStack":{
-      "Type":"AWS::CloudFormation::Stack",
-      "DependsOn":[
+    "ZapStack": {
+      "Type": "AWS::CloudFormation::Stack",
+      "DependsOn": [
         "VPCStack",
         "IAMStack"
       ],
-      "Properties":{
-        "TemplateURL":{
-          "Fn::Join":[
+      "Properties": {
+        "TemplateURL": {
+          "Fn::Join": [
             "",
             [
               {
-                "Ref":"BaseTemplateURL"
+                "Ref": "BaseTemplateURL"
               },
               {
-                "Ref":"ZapCFNTemplateFile"
+                "Ref": "ZapCFNTemplateFile"
               }
             ]
           ]
         },
-        "TimeoutInMinutes":"60",
-        "Parameters":{
-          "Ec2Key":{
-            "Ref":"KeyName"
-          },
-          "pZapAmiId":{
-            "Ref":"pZapAmiId"
-          },
-          "SubnetId":{
-            "Fn::GetAtt":[
-              "VPCStack",
-              "Outputs.SubnetId"
-            ]
-          },
-          "CfnInitRole":{
-            "Fn::GetAtt":[
+        "TimeoutInMinutes": "60",
+        "Parameters": {
+          "CfnInitRole": {
+            "Fn::GetAtt": [
               "IAMStack",
               "Outputs.InstanceRole"
             ]
           },
-          "VPC":{
-            "Fn::GetAtt":[
+          "Ec2Key": {
+            "Ref": "KeyName"
+          },
+          "InstanceProfile": {
+            "Fn::GetAtt": [
+              "IAMStack",
+              "Outputs.InstanceProfile"
+            ]
+          },
+          "SubnetId": {
+            "Fn::GetAtt": [
+              "VPCStack",
+              "Outputs.SubnetId"
+            ]
+          },
+          "VPC": {
+            "Fn::GetAtt": [
               "VPCStack",
               "Outputs.VPC"
             ]
           },
-          "InstanceProfile":{
-            "Fn::GetAtt":[
-              "IAMStack",
-              "Outputs.InstanceProfile"
-            ]
+          "pZapAmiId": {
+            "Ref": "pZapAmiId"
           }
         }
       }
     },
-    "JenkinsStack":{
-      "Type":"AWS::CloudFormation::Stack",
-      "DependsOn":[
+    "JenkinsStack": {
+      "Type": "AWS::CloudFormation::Stack",
+      "DependsOn": [
         "DynamoDBStack",
         "VPCStack",
         "IAMStack",
         "PipelineStoreStack",
         "WebServerInstance"
       ],
+      "Properties": {
+        "TemplateURL": {
+          "Fn::Join": [
+            "",
+            [
+              {
+                "Ref": "BaseTemplateURL"
+              },
+              {
+                "Ref": "JenkinsCFNTemplateFile"
+              }
+            ]
+          ]
+        },
+        "TimeoutInMinutes": "60",
+        "Parameters": {
+          "CfnInitRole": {
+            "Fn::GetAtt": [
+              "IAMStack",
+              "Outputs.InstanceRole"
+            ]
+          },
+          "Ec2Key": {
+            "Ref": "KeyName"
+          },
+          "InstanceProfile": {
+            "Fn::GetAtt": [
+              "IAMStack",
+              "Outputs.InstanceProfile"
+            ]
+          },
+          "JobConfigsTarball": {
+            "Fn::GetAtt": [
+              "PipelineStoreStack",
+              "Outputs.JobConfigsTarball"
+            ]
+          },
+          "S3Bucket": {
+            "Fn::GetAtt": [
+              "PipelineStoreStack",
+              "Outputs.DromedaryS3Bucket"
+            ]
+          },
+          "SubnetId": {
+            "Fn::GetAtt": [
+              "VPCStack",
+              "Outputs.SubnetId"
+            ]
+          },
+          "VPC": {
+            "Fn::GetAtt": [
+              "VPCStack",
+              "Outputs.VPC"
+            ]
+          }
+        }
+      },
       "Metadata": {
-        "conditionalOrderingHack" : {
-          "Fn::If" : [
+        "conditionalOrderingHack": {
+          "Fn::If": [
             "cEnableConfig",
             {
               "Fn::GetAtt": [
@@ -1446,94 +1527,37 @@
             "dontcare"
           ]
         }
-      },
-      "Properties":{
-        "TemplateURL":{
-          "Fn::Join":[
-            "",
-            [
-              {
-                "Ref":"BaseTemplateURL"
-              },
-              {
-                "Ref":"JenkinsCFNTemplateFile"
-              }
-            ]
-          ]
-        },
-        "TimeoutInMinutes":"60",
-        "Parameters":{
-          "Ec2Key":{
-            "Ref":"KeyName"
-          },
-          "SubnetId":{
-            "Fn::GetAtt":[
-              "VPCStack",
-              "Outputs.SubnetId"
-            ]
-          },
-          "S3Bucket":{
-            "Fn::GetAtt":[
-              "PipelineStoreStack",
-              "Outputs.DromedaryS3Bucket"
-            ]
-          },
-          "CfnInitRole":{
-            "Fn::GetAtt":[
-              "IAMStack",
-              "Outputs.InstanceRole"
-            ]
-          },
-          "VPC":{
-            "Fn::GetAtt":[
-              "VPCStack",
-              "Outputs.VPC"
-            ]
-          },
-          "InstanceProfile":{
-            "Fn::GetAtt":[
-              "IAMStack",
-              "Outputs.InstanceProfile"
-            ]
-          },
-          "JobConfigsTarball":{
-            "Fn::GetAtt":[
-              "PipelineStoreStack",
-              "Outputs.JobConfigsTarball"
-            ]
-          }
-        }
       }
     },
-    "CodePipelineActionsStack":{
-      "Type":"AWS::CloudFormation::Stack",
-      "DependsOn":[
+    "CodePipelineActionsStack": {
+      "Type": "AWS::CloudFormation::Stack",
+      "DependsOn": [
         "JenkinsStack"
       ],
-      "Properties":{
-        "TemplateURL":{
-          "Fn::Join":[
+      "Properties": {
+        "TemplateURL": {
+          "Fn::Join": [
             "",
             [
               {
-                "Ref":"BaseTemplateURL"
+                "Ref": "BaseTemplateURL"
               },
               {
-                "Ref":"CodePipelineActionsCFNTemplateFile"
+                "Ref": "CodePipelineActionsCFNTemplateFile"
               }
             ]
           ]
         },
-        "TimeoutInMinutes":"60",
-        "Parameters":{
-          "MyBuildProvider":{
-            "Fn::GetAtt":[
+        "TimeoutInMinutes": "60",
+        "Parameters": {
+          "MyBuildProvider": {
+            "Fn::GetAtt": [
               "PipelineStoreStack",
               "Outputs.MyBuildProvider"
             ]
           },
-          "MyJenkinsURL":{
-            "Fn::GetAtt":[
+          "MyJenkinsURL": {
+            "Fn::GetAtt": [
               "JenkinsStack",
               "Outputs.JenkinsURL"
             ]
@@ -1541,168 +1565,167 @@
         }
       }
     },
-    "CodePipelineStack":{
-      "Type":"AWS::CloudFormation::Stack",
-      "DependsOn":[
+    "CodePipelineStack": {
+      "Type": "AWS::CloudFormation::Stack",
+      "DependsOn": [
         "CodePipelineActionsStack"
       ],
-      "Properties":{
-        "TemplateURL":{
-          "Fn::Join":[
+      "Properties": {
+        "TemplateURL": {
+          "Fn::Join": [
             "",
             [
               {
-                "Ref":"BaseTemplateURL"
+                "Ref": "BaseTemplateURL"
               },
               {
-                "Ref":"CodePipelineCFNTemplateFile"
+                "Ref": "CodePipelineCFNTemplateFile"
               }
             ]
           ]
         },
-        "TimeoutInMinutes":"60",
-        "Parameters":{
-          "ArtifactStoreBucket":{
-            "Fn::GetAtt":[
+        "TimeoutInMinutes": "60",
+        "Parameters": {
+          "ArtifactStoreBucket": {
+            "Fn::GetAtt": [
               "PipelineStoreStack",
               "Outputs.DromedaryS3Bucket"
             ]
           },
-          "GitHubToken":{
-            "Ref":"GitHubToken"
+          "Branch": {
+            "Ref": "Branch"
           },
-          "GitHubUser":{
-            "Ref":"GitHubUser"
-          },
-          "Repo":{
-            "Ref":"Repo"
-          },
-          "Branch":{
-            "Ref":"Branch"
-          },
-          "MyBuildProvider":{
-            "Fn::GetAtt":[
-              "PipelineStoreStack",
-              "Outputs.MyBuildProvider"
-            ]
-          },
-          "MyJenkinsURL":{
-            "Fn::GetAtt":[
-              "JenkinsStack",
-              "Outputs.JenkinsURL"
-            ]
-          },
-          "CodePipelineServiceRole":{
-            "Fn::GetAtt":[
+          "CodePipelineServiceRole": {
+            "Fn::GetAtt": [
               "IAMStack",
               "Outputs.CodePipelineTrustRoleARN"
             ]
+          },
+          "GitHubToken": {
+            "Ref": "GitHubToken"
+          },
+          "GitHubUser": {
+            "Ref": "GitHubUser"
+          },
+          "MyBuildProvider": {
+            "Fn::GetAtt": [
+              "PipelineStoreStack",
+              "Outputs.MyBuildProvider"
+            ]
+          },
+          "MyJenkinsURL": {
+            "Fn::GetAtt": [
+              "JenkinsStack",
+              "Outputs.JenkinsURL"
+            ]
+          },
+          "Repo": {
+            "Ref": "Repo"
           }
         }
       }
     },
     "ConfigStack": {
-      "Type":"AWS::CloudFormation::Stack",
-      "DependsOn":[
+      "Type": "AWS::CloudFormation::Stack",
+      "DependsOn": [
+
       ],
-      "Condition": "cEnableConfig",
-      "Properties":{
-        "TemplateURL":{
-          "Fn::Join":[
+      "Properties": {
+        "TemplateURL": {
+          "Fn::Join": [
             "",
             [
               {
-                "Ref":"BaseTemplateURL"
+                "Ref": "BaseTemplateURL"
               },
               {
-                "Ref":"ConfigCFNTemplateFile"
+                "Ref": "ConfigCFNTemplateFile"
               }
             ]
           ]
         },
-        "TimeoutInMinutes":"60",
-        "Parameters":{
-
+        "TimeoutInMinutes": "60",
+        "Parameters": {
         }
-      }
+      },
+      "Condition": "cEnableConfig"
     },
     "LambdaConfigStack": {
-      "Type":"AWS::CloudFormation::Stack",
-      "DependsOn":[
+      "Type": "AWS::CloudFormation::Stack",
+      "DependsOn": [
         "ConfigStack"
       ],
-      "Condition": "cEnableConfig",
-      "Properties":{
-        "TemplateURL":{
-          "Fn::Join":[
+      "Properties": {
+        "TemplateURL": {
+          "Fn::Join": [
             "",
             [
               {
-                "Ref":"BaseTemplateURL"
+                "Ref": "BaseTemplateURL"
               },
               {
-                "Ref":"LambdaConfigCFNTemplateFile"
+                "Ref": "LambdaConfigCFNTemplateFile"
               }
             ]
           ]
         },
-        "TimeoutInMinutes":"60",
-        "Parameters":{
-
+        "TimeoutInMinutes": "60",
+        "Parameters": {
         }
-      }
+      },
+      "Condition": "cEnableConfig"
     },
     "rCloudFrontStack": {
-      "Type":"AWS::CloudFormation::Stack",
-      "Condition": "cEnableCloudFrontAndWaf",
-      "Properties":{
-        "TemplateURL":{
-          "Fn::Join":[
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": {
+          "Fn::Join": [
             "",
             [
               {
-                "Ref":"BaseTemplateURL"
+                "Ref": "BaseTemplateURL"
               },
               {
-                "Ref":"pCloudFrontCFNTemplateFile"
+                "Ref": "pCloudFrontCFNTemplateFile"
               }
             ]
           ]
         },
-        "TimeoutInMinutes":"60",
-        "Parameters":{
-          "pDistributionDomainName":{
-            "Fn::Join":[
+        "TimeoutInMinutes": "60",
+        "Parameters": {
+          "pDistributionDomainName": {
+            "Fn::Join": [
               "",
               [
                 {
-                  "Ref":"AWS::StackName"
+                  "Ref": "AWS::StackName"
                 },
                 "",
                 {
-                  "Ref":"ProdHostedZone"
+                  "Ref": "ProdHostedZone"
                 }
               ]
             ]
           }
         }
-      }
+      },
+      "Condition": "cEnableCloudFrontAndWaf"
     }
   },
-  "Outputs":{
-    "StackName":{
-      "Value":{
-        "Ref":"AWS::StackName"
+  "Outputs": {
+    "StackName": {
+      "Value": {
+        "Ref": "AWS::StackName"
       }
     },
-    "DromedaryAppURL":{
-      "Value":{
-        "Fn::Join":[
+    "DromedaryAppURL": {
+      "Value": {
+        "Fn::Join": [
           "",
           [
             "http://",
             {
-              "Fn::GetAtt":[
+              "Fn::GetAtt": [
                 "PipelineStoreStack",
                 "Outputs.DromedaryAppURL"
               ]

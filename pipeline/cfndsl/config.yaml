@@ -1,0 +1,9 @@
+---
+  default_egress_ip: "70.138.67.94/32"
+  default_egress_from_port: "-1"
+  default_egress_to_port: "-1"
+
+  default_ingress_ip: "70.138.67.94/32"
+
+  instance_ingress_ssh_ip: "70.138.67.94/32"
+  instance_ingress_web_ip: "70.138.67.94/32"

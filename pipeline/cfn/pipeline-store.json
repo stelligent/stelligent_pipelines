@@ -1,114 +1,114 @@
 {
-  "AWSTemplateFormatVersion":"2010-09-09",
-  "Description":"Store CFN Outputs to consume in downstream CFN stacks",
-  "Parameters":{
-    "UUID":{
-      "Type":"String",
-      "Description":"Unique identifier to uniquely name Resources",
-      "Default":"EMPTY"
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Store CFN Outputs to consume in downstream CFN stacks",
+  "Parameters": {
+    "UUID": {
+      "Type": "String",
+      "Description": "Unique identifier to uniquely name Resources",
+      "Default": "EMPTY"
     },
-    "MasterStackName":{
-      "Type":"String",
-      "Default":"EMPTY",
-      "Description":"Name of the master.json CFN stack"
+    "MasterStackName": {
+      "Type": "String",
+      "Description": "Name of the master.json CFN stack",
+      "Default": "EMPTY"
     },
-    "DromedaryS3Bucket":{
-      "Type":"String",
-      "Default":"EMPTY",
-      "Description":"Name of S3 bucket used to store Jenkins config"
+    "DromedaryS3Bucket": {
+      "Type": "String",
+      "Description": "Name of S3 bucket used to store Jenkins config",
+      "Default": "EMPTY"
     },
-    "DemoResultsBucket":{
-      "Type":"String",
-      "Default":"EMPTY",
-      "Description":"Name of the S3 bucket used to store test results"
+    "DemoResultsBucket": {
+      "Type": "String",
+      "Description": "Name of the S3 bucket used to store test results",
+      "Default": "EMPTY"
     },
-    "Branch":{
-      "Type":"String",
-      "Default":"EMPTY",
-      "Description":"Name of Dromedary Github branch"
+    "Branch": {
+      "Type": "String",
+      "Description": "Name of Dromedary Github branch",
+      "Default": "EMPTY"
     },
-    "KeyName":{
-      "Type":"String",
-      "Default":"EMPTY",
-      "Description":"EC2 KeyPair"
+    "KeyName": {
+      "Type": "String",
+      "Description": "EC2 KeyPair",
+      "Default": "EMPTY"
     },
-    "MyBuildProvider":{
-      "Type":"String",
-      "Default":"EMPTY",
-      "Description":"Jenkins Build Provider Name"
+    "MyBuildProvider": {
+      "Type": "String",
+      "Description": "Jenkins Build Provider Name",
+      "Default": "EMPTY"
     },
-    "JobConfigsTarball":{
-      "Type":"String",
-      "Default":"EMPTY",
-      "Description":"S3 key for DromedaryS3Bucket"
+    "JobConfigsTarball": {
+      "Type": "String",
+      "Description": "S3 key for DromedaryS3Bucket",
+      "Default": "EMPTY"
     },
-    "Hostname":{
-      "Type":"String",
-      "Default":"EMPTY",
-      "Description":"subdomain name"
+    "Hostname": {
+      "Type": "String",
+      "Description": "subdomain name",
+      "Default": "EMPTY"
     },
-    "Domain":{
-      "Type":"String",
-      "Description":"Route53 Hosted Zone name for prod IP (include trailing .)",
-      "Default":"oneclickdeployment.com."
+    "Domain": {
+      "Type": "String",
+      "Description": "Route53 Hosted Zone name for prod IP (include trailing .)",
+      "Default": "oneclickdeployment.com."
     },
-    "ProdHostedZone":{
-      "Type":"String",
-      "Description":"Route53 Hosted Zone (e.g. PRODHOST.HOSTED.ZONE)",
-      "AllowedPattern":"^.*?\\..*?\\..*$"
+    "ProdHostedZone": {
+      "Type": "String",
+      "Description": "Route53 Hosted Zone (e.g. PRODHOST.HOSTED.ZONE)",
+      "AllowedPattern": "^.*?\\..*?\\..*$"
     },
-    "VPCStackName":{
-      "Type":"String",
-      "Default":"EMPTY",
-      "Description":"VPCStackName"
+    "VPCStackName": {
+      "Type": "String",
+      "Description": "VPCStackName",
+      "Default": "EMPTY"
     },
-    "IAMStackName":{
-      "Type":"String",
-      "Default":"EMPTY",
-      "Description":"IAMStackName"
+    "IAMStackName": {
+      "Type": "String",
+      "Description": "IAMStackName",
+      "Default": "EMPTY"
     },
-    "DDBStackName":{
-      "Type":"String",
-      "Default":"EMPTY",
-      "Description":"DDBStackName"
+    "DDBStackName": {
+      "Type": "String",
+      "Description": "DDBStackName",
+      "Default": "EMPTY"
     },
-    "ConfigStackName":{
-      "Type":"String",
-      "Default":"EMPTY",
-      "Description":"ConfigStackName"
+    "ConfigStackName": {
+      "Type": "String",
+      "Description": "ConfigStackName",
+      "Default": "EMPTY"
     },
-    "LambdaConfigStackName":{
-      "Type":"String",
-      "Default":"EMPTY",
-      "Description":"LambdaConfigStackName"
+    "LambdaConfigStackName": {
+      "Type": "String",
+      "Description": "LambdaConfigStackName",
+      "Default": "EMPTY"
     },
-    "ENIStackName":{
-      "Type":"String",
-      "Default":"EMPTY",
-      "Description":"ENIStackName"
+    "ENIStackName": {
+      "Type": "String",
+      "Description": "ENIStackName",
+      "Default": "EMPTY"
     },
-    "DromedaryAppURL":{
-      "Type":"String",
-      "Default":"EMPTY",
-      "Description":"The URL users use to launch the Dromedary application"
+    "DromedaryAppURL": {
+      "Type": "String",
+      "Description": "The URL users use to launch the Dromedary application",
+      "Default": "EMPTY"
     },
-    "ZapStackName":{
-      "Type":"String",
-      "Default":"EMPTY",
-      "Description":"ZapStackName"
+    "ZapStackName": {
+      "Type": "String",
+      "Description": "ZapStackName",
+      "Default": "EMPTY"
     }
   },
-  "Resources":{
-    "MyQueue":{
-      "Type":"AWS::SQS::Queue",
-      "Properties":{
-        "QueueName":{
-          "Fn::Join":[
+  "Resources": {
+    "MyQueue": {
+      "Type": "AWS::SQS::Queue",
+      "Properties": {
+        "QueueName": {
+          "Fn::Join": [
             "",
             [
               "PipelineStoreQueue-",
               {
-                "Ref":"UUID"
+                "Ref": "UUID"
               }
             ]
           ]
@@ -116,124 +116,124 @@
       }
     }
   },
-  "Outputs":{
-    "StackName":{
-      "Value":{
-        "Ref":"AWS::StackName"
+  "Outputs": {
+    "StackName": {
+      "Value": {
+        "Ref": "AWS::StackName"
       }
     },
-    "UUID":{
-      "Value":{
-        "Ref":"UUID"
+    "UUID": {
+      "Value": {
+        "Ref": "UUID"
       }
     },
-    "MasterStackName":{
-      "Description":"Name of the Master CFN Stack",
-      "Value":{
-        "Ref":"MasterStackName"
-      }
+    "MasterStackName": {
+      "Value": {
+        "Ref": "MasterStackName"
+      },
+      "Description": "Name of the Master CFN Stack"
     },
-    "DromedaryS3Bucket":{
-      "Description":"Name of S3 bucket used to store Jenkins config",
-      "Value":{
-        "Ref":"DromedaryS3Bucket"
-      }
+    "DromedaryS3Bucket": {
+      "Value": {
+        "Ref": "DromedaryS3Bucket"
+      },
+      "Description": "Name of S3 bucket used to store Jenkins config"
     },
-    "DemoResultsBucket":{
-      "Description":"Name of the S3 bucket used to store test results",
-      "Value":{
-        "Ref":"DemoResultsBucket"
-      }
+    "DemoResultsBucket": {
+      "Value": {
+        "Ref": "DemoResultsBucket"
+      },
+      "Description": "Name of the S3 bucket used to store test results"
     },
-    "Branch":{
-      "Description":"TBD",
-      "Value":{
-        "Ref":"Branch"
-      }
+    "Branch": {
+      "Value": {
+        "Ref": "Branch"
+      },
+      "Description": "TBD"
     },
-    "KeyName":{
-      "Description":"TBD",
-      "Value":{
-        "Ref":"KeyName"
-      }
+    "KeyName": {
+      "Value": {
+        "Ref": "KeyName"
+      },
+      "Description": "TBD"
     },
-    "MyBuildProvider":{
-      "Description":"TBD",
-      "Value":{
-        "Ref":"MyBuildProvider"
-      }
+    "MyBuildProvider": {
+      "Value": {
+        "Ref": "MyBuildProvider"
+      },
+      "Description": "TBD"
     },
-    "JobConfigsTarball":{
-      "Description":"S3 key for DromedaryS3Bucket",
-      "Value":{
-        "Ref":"JobConfigsTarball"
-      }
+    "JobConfigsTarball": {
+      "Value": {
+        "Ref": "JobConfigsTarball"
+      },
+      "Description": "S3 key for DromedaryS3Bucket"
     },
-    "Hostname":{
-      "Description":"subdomain name",
-      "Value":{
-        "Ref":"Hostname"
-      }
+    "Hostname": {
+      "Value": {
+        "Ref": "Hostname"
+      },
+      "Description": "subdomain name"
     },
-    "Domain":{
-      "Description":"Route53 Hosted Zone name for prod IP (include trailing .)",
-      "Value":{
-        "Ref":"Domain"
-      }
+    "Domain": {
+      "Value": {
+        "Ref": "Domain"
+      },
+      "Description": "Route53 Hosted Zone name for prod IP (include trailing .)"
     },
-    "ProdHostedZone":{
-      "Description":"Route53 Hosted Zone (e.g. PRODHOST.HOSTED.ZONE)",
-      "Value":{
-        "Ref":"ProdHostedZone"
-      }
+    "ProdHostedZone": {
+      "Value": {
+        "Ref": "ProdHostedZone"
+      },
+      "Description": "Route53 Hosted Zone (e.g. PRODHOST.HOSTED.ZONE)"
     },
-    "VPCStackName":{
-      "Description":"TBD",
-      "Value":{
-        "Ref":"VPCStackName"
-      }
+    "VPCStackName": {
+      "Value": {
+        "Ref": "VPCStackName"
+      },
+      "Description": "TBD"
     },
-    "IAMStackName":{
-      "Description":"TBD",
-      "Value":{
-        "Ref":"IAMStackName"
-      }
+    "IAMStackName": {
+      "Value": {
+        "Ref": "IAMStackName"
+      },
+      "Description": "TBD"
     },
-    "DDBStackName":{
-      "Description":"TBD",
-      "Value":{
-        "Ref":"DDBStackName"
-      }
+    "DDBStackName": {
+      "Value": {
+        "Ref": "DDBStackName"
+      },
+      "Description": "TBD"
     },
-    "ENIStackName":{
-      "Description":"TBD",
-      "Value":{
-        "Ref":"ENIStackName"
-      }
+    "ENIStackName": {
+      "Value": {
+        "Ref": "ENIStackName"
+      },
+      "Description": "TBD"
     },
-    "ConfigStackName":{
-      "Description":"TBD",
-      "Value":{
-        "Ref":"ConfigStackName"
-      }
+    "ConfigStackName": {
+      "Value": {
+        "Ref": "ConfigStackName"
+      },
+      "Description": "TBD"
     },
-    "LambdaConfigStackName":{
-      "Description":"TBD",
-      "Value":{
-        "Ref":"LambdaConfigStackName"
-      }
+    "LambdaConfigStackName": {
+      "Value": {
+        "Ref": "LambdaConfigStackName"
+      },
+      "Description": "TBD"
     },
-    "DromedaryAppURL":{
-      "Description":"The URL users use to launch the Dromedary application",
-      "Value":{
-        "Ref":"DromedaryAppURL"
-      }
+    "DromedaryAppURL": {
+      "Value": {
+        "Ref": "DromedaryAppURL"
+      },
+      "Description": "The URL users use to launch the Dromedary application"
     },
-    "ZapStackName":{
-      "Description":"Zap Stack to query",
-      "Value":{
-        "Ref":"ZapStackName"
-      }
+    "ZapStackName": {
+      "Value": {
+        "Ref": "ZapStackName"
+      },
+      "Description": "Zap Stack to query"
     }
   }
 }

@@ -1,146 +1,144 @@
 {
-  "AWSTemplateFormatVersion":"2010-09-09",
-  "Description":"Stelligent CloudFormation Template for launching OWASP Zed Attack Proxy (ZAP) on an EC2 instance ** This template creates one or more Amazon resources. You will be billed for the AWS resources used if you create a stack from this template.",
-  "Parameters":{
-    "Ec2Key":{
-      "Type":"String",
-      "Description":"Ec2 key for ssh access"
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Stelligent CloudFormation Template for launching OWASP Zed Attack Proxy (ZAP) on an EC2 instance ** This template creates one or more Amazon resources. You will be billed for the AWS resources used if you create a stack from this template.",
+  "Parameters": {
+    "Ec2Key": {
+      "Type": "String",
+      "Description": "Ec2 key for ssh access"
     },
-    "pZapAmiId":{
-      "Type":"String",
-      "Description":"AMI ID for ZAP server",
-      "Default":"ami-cdb588a7"
+    "pZapAmiId": {
+      "Type": "String",
+      "Description": "AMI ID for ZAP server",
+      "Default": "ami-cdb588a7"
     },
-    "SubnetId":{
-      "Type":"String",
-      "Description":"VPC subnet id in which to place zap"
+    "SubnetId": {
+      "Type": "String",
+      "Description": "VPC subnet id in which to place zap"
     },
-    "VPC":{
-      "Type":"String",
-      "Description":"VPC ID in which to place Zap"
+    "VPC": {
+      "Type": "String",
+      "Description": "VPC ID in which to place Zap"
     },
-    "CfnInitRole":{
-      "Type":"String",
-      "Description":"IAM Role for cfn-init"
+    "CfnInitRole": {
+      "Type": "String",
+      "Description": "IAM Role for cfn-init"
     },
-    "InstanceProfile":{
-      "Type":"String",
-      "Description":"Instance profile for ZAP instance"
+    "InstanceProfile": {
+      "Type": "String",
+      "Description": "Instance profile for ZAP instance"
     },
-    "SshCidr":{
-      "Type":"String",
-      "Description":"Whitelisted network CIDR for inbound SSH",
-      "Default":"0.0.0.0/0"
+    "SshCidr": {
+      "Type": "String",
+      "Description": "Whitelisted network CIDR for inbound SSH",
+      "Default": "0.0.0.0/0"
     }
   },
-  "Conditions":{
-    "NoEc2Key":{
-      "Fn::Equals":[
+  "Mappings": {
+    "RegionConfig": {
+      "us-east-1": {
+        "ami": "ami-cdb588a7"
+      }
+    }
+  },
+  "Conditions": {
+    "NoEc2Key": {
+      "Fn::Equals": [
         {
-          "Ref":"Ec2Key"
+          "Ref": "Ec2Key"
         },
         ""
       ]
     }
   },
-  "Mappings":{
-    "RegionConfig":{
-      "us-east-1":{
-        "ami":"ami-cdb588a7"
-      }
-    }
-  },
-  "Resources":{
-    "ZapSecurityGroup":{
-      "Type":"AWS::EC2::SecurityGroup",
-      "Properties":{
-        "VpcId":{
-          "Ref":"VPC"
+  "Resources": {
+    "ZapSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "VpcId": {
+          "Ref": "VPC"
         },
-        "GroupDescription":"Open SSH and ZAP",
-        "SecurityGroupIngress":[
+        "GroupDescription": "Open SSH and ZAP",
+        "SecurityGroupIngress": [
           {
-            "IpProtocol":"tcp",
-            "FromPort":"22",
-            "ToPort":"22",
-            "CidrIp":{
-              "Ref":"SshCidr"
-            }
+            "CidrIp": {
+              "Ref": "SshCidr"
+            },
+            "FromPort": "22",
+            "IpProtocol": "tcp",
+            "ToPort": "22"
           },
           {
-            "IpProtocol":"tcp",
-            "FromPort":"8080",
-            "ToPort":"8080",
-            "CidrIp":{
-              "Ref":"SshCidr"
-            }
+            "CidrIp": {
+              "Ref": "SshCidr"
+            },
+            "FromPort": "8080",
+            "IpProtocol": "tcp",
+            "ToPort": "8080"
+          }
+        ],
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "70.138.67.94/32",
+            "FromPort": "-1",
+            "IpProtocol": "tcp",
+            "ToPort": "-1"
           }
         ]
       }
     },
-    "ZapInstance":{
-      "Type":"AWS::EC2::Instance",
-      "Metadata":{
-        "AWS::CloudFormation::Init":{
-          "packages":{
-            "python":{
-              "behave": [],
-              "python-owasp-zap-v2.4": []
-            }
-          }
-        }
-      },
-      "Properties":{
-        "ImageId":{
-          "Ref":"pZapAmiId"
+    "ZapInstance": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "ImageId": {
+          "Ref": "pZapAmiId"
         },
-        "InstanceType":"t2.micro",
-        "IamInstanceProfile":{
-          "Ref":"InstanceProfile"
+        "InstanceType": "t2.micro",
+        "IamInstanceProfile": {
+          "Ref": "InstanceProfile"
         },
-        "KeyName":{
-          "Fn::If":[
+        "KeyName": {
+          "Fn::If": [
             "NoEc2Key",
             {
-              "Ref":"AWS::NoValue"
+              "Ref": "AWS::NoValue"
             },
             {
-              "Ref":"Ec2Key"
+              "Ref": "Ec2Key"
             }
           ]
         },
-        "Tags":[
+        "Tags": [
           {
-            "Key":"Application",
-            "Value":{
-              "Ref":"AWS::StackId"
+            "Key": "Application",
+            "Value": {
+              "Ref": "AWS::StackId"
             }
           },
           {
-            "Key":"Name",
-            "Value":{
-              "Ref":"AWS::StackName"
+            "Key": "Name",
+            "Value": {
+              "Ref": "AWS::StackName"
             }
           }
         ],
-        "NetworkInterfaces":[
+        "NetworkInterfaces": [
           {
-            "GroupSet":[
+            "AssociatePublicIpAddress": "true",
+            "DeleteOnTermination": "true",
+            "DeviceIndex": "0",
+            "GroupSet": [
               {
-                "Ref":"ZapSecurityGroup"
+                "Ref": "ZapSecurityGroup"
               }
             ],
-            "AssociatePublicIpAddress":"true",
-            "DeviceIndex":"0",
-            "DeleteOnTermination":"true",
-            "SubnetId":{
-              "Ref":"SubnetId"
+            "SubnetId": {
+              "Ref": "SubnetId"
             }
           }
         ],
-        "UserData":{
-          "Fn::Base64":{
-            "Fn::Join":[
+        "UserData": {
+          "Fn::Base64": {
+            "Fn::Join": [
               "",
               [
                 "#!/bin/bash -xe\n",
@@ -151,16 +149,16 @@
                 "/opt/aws/bin/cfn-init -v",
                 " --stack ",
                 {
-                  "Ref":"AWS::StackName"
+                  "Ref": "AWS::StackName"
                 },
                 " --resource ZapInstance ",
                 " --role ",
                 {
-                  "Ref":"CfnInitRole"
+                  "Ref": "CfnInitRole"
                 },
                 " --region ",
                 {
-                  "Ref":"AWS::Region"
+                  "Ref": "AWS::Region"
                 },
                 "\n",
                 "pip install behave python-owasp-zap-v2.4\n",
@@ -169,12 +167,12 @@
                 "/opt/aws/bin/cfn-signal -e $? ",
                 " --stack ",
                 {
-                  "Ref":"AWS::StackName"
+                  "Ref": "AWS::StackName"
                 },
                 " --resource ZapInstance ",
                 " --region ",
                 {
-                  "Ref":"AWS::Region"
+                  "Ref": "AWS::Region"
                 },
                 "\n"
               ]
@@ -182,37 +180,50 @@
           }
         }
       },
-      "CreationPolicy":{
-        "ResourceSignal":{
-          "Timeout":"PT15M"
+      "CreationPolicy": {
+        "ResourceSignal": {
+          "Timeout": "PT15M"
+        }
+      },
+      "Metadata": {
+        "AWS::CloudFormation::Init": {
+          "packages": {
+            "python": {
+              "behave": [
+
+              ],
+              "python-owasp-zap-v2.4": [
+
+              ]
+            }
+          }
         }
       }
     }
   },
-  "Outputs":{
-    "StackName":{
-      "Value":{
-        "Ref":"AWS::StackName"
+  "Outputs": {
+    "StackName": {
+      "Value": {
+        "Ref": "AWS::StackName"
       }
     },
-    "PublicDns":{
-      "Description":"Public DNS of Zap instance",
-      "Value":{
-        "Fn::GetAtt":[
+    "PublicDns": {
+      "Value": {
+        "Fn::GetAtt": [
           "ZapInstance",
           "PublicIp"
         ]
-      }
+      },
+      "Description": "Public DNS of Zap instance"
     },
-    "ZapURL":{
-      "Description":"Zap URL",
-      "Value":{
-        "Fn::Join":[
+    "ZapURL": {
+      "Value": {
+        "Fn::Join": [
           "",
           [
             "http://",
             {
-              "Fn::GetAtt":[
+              "Fn::GetAtt": [
                 "ZapInstance",
                 "PublicIp"
               ]
@@ -220,16 +231,17 @@
             ":8080"
           ]
         ]
-      }
+      },
+      "Description": "Zap URL"
     },
-    "SecurityGroup":{
-      "Description":"Zap Security Group",
-      "Value":{
-        "Fn::GetAtt":[
+    "SecurityGroup": {
+      "Value": {
+        "Fn::GetAtt": [
           "ZapSecurityGroup",
           "GroupId"
         ]
-      }
+      },
+      "Description": "Zap Security Group"
     }
   }
 }

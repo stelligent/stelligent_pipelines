@@ -1,0 +1,31 @@
+Metrics/LineLength:
+  Max: 300
+
+Metrics/CyclomaticComplexity:
+  Max: 10
+
+Metrics/AbcSize:
+  Max: 25
+
+Metrics/MethodLength:
+  Max: 25
+
+# Due to our @Properties style instance names
+Style/VariableName:
+  Enabled: false
+
+# We are a DSL
+Style/MethodName:
+  Enabled: false
+
+Style/FileName:
+  Enabled: true
+  Exclude:
+    # Ignore Legacy dromedary file names 
+    - 'pipeline/cfndsl/**/*'
+
+Lint/Void:
+  Enabled: false
+
+AllCops:
+  TargetRubyVersion: 2.3

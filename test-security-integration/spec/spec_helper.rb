@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.configure do |config|
   config.fail_fast = false
   config.expect_with :rspec do |expectations|

@@ -1,434 +1,432 @@
 {
-  "AWSTemplateFormatVersion":"2010-09-09",
-  "Description":"Dromedary CodePipeline provisioning",
-  "Parameters":{
-    "ArtifactStoreBucket":{
-      "Type":"String",
-      "Description":"S3 bucket to use for artifacts. Just bucket Name; not URL. IAM user should have access to the bucket.",
-      "Default":"codepipeline-us-east-1-XXXXXXXXXXX"
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Dromedary CodePipeline provisioning",
+  "Parameters": {
+    "ArtifactStoreBucket": {
+      "Type": "String",
+      "Description": "S3 bucket to use for artifacts. Just bucket Name; not URL. IAM user should have access to the bucket.",
+      "Default": "codepipeline-us-east-1-XXXXXXXXXXX"
     },
-    "GitHubToken":{
-      "NoEcho":"true",
-      "Type":"String",
-      "Description":"Secret. It might look something like 9b189a1654643522561f7b3ebd44a1531a4287af OAuthToken with access to Repo. Go to https://github.com/settings/tokens"
+    "GitHubToken": {
+      "Type": "String",
+      "Description": "Secret. It might look something like 9b189a1654643522561f7b3ebd44a1531a4287af OAuthToken with access to Repo. Go to https://github.com/settings/tokens",
+      "NoEcho": true
     },
-    "GitHubUser":{
-      "Type":"String",
-      "Description":"GitHub UserName",
-      "Default":"stelligent"
+    "GitHubUser": {
+      "Type": "String",
+      "Description": "GitHub UserName",
+      "Default": "stelligent"
     },
-    "Repo":{
-      "Type":"String",
-      "Description":"GitHub Repo to pull from. Only the Name. not the URL",
-      "Default":"dromedary"
+    "Repo": {
+      "Type": "String",
+      "Description": "GitHub Repo to pull from. Only the Name. not the URL",
+      "Default": "dromedary"
     },
-    "Branch":{
-      "Type":"String",
-      "Description":"Branch to use from Repo. Only the Name. not the URL",
-      "Default":"master"
+    "Branch": {
+      "Type": "String",
+      "Description": "Branch to use from Repo. Only the Name. not the URL",
+      "Default": "master"
     },
-    "MyInputArtifacts":{
-      "Type":"String",
-      "Default":"DromedarySource"
+    "MyInputArtifacts": {
+      "Type": "String",
+      "Default": "DromedarySource"
     },
-    "MyBuildProvider":{
-      "Type":"String",
-      "Description":"Unique identifier for Custom Action"
+    "MyBuildProvider": {
+      "Type": "String",
+      "Description": "Unique identifier for Custom Action"
     },
-    "MyJenkinsURL":{
-      "Type":"String"
+    "MyJenkinsURL": {
+      "Type": "String"
     },
-    "CodePipelineServiceRole":{
-      "Type":"String",
-      "Default":"arn:aws:iam::123456789012:role/AWS-CodePipeline-Service",
-      "Description":"This IAM role must have proper permissions."
+    "CodePipelineServiceRole": {
+      "Type": "String",
+      "Description": "This IAM role must have proper permissions.",
+      "Default": "arn:aws:iam::123456789012:role/AWS-CodePipeline-Service"
     }
   },
-  "Resources":{
-    "AppPipeline":{
-      "Type":"AWS::CodePipeline::Pipeline",
-      "Properties":{
-        "RoleArn":{
-          "Ref":"CodePipelineServiceRole"
+  "Resources": {
+    "AppPipeline": {
+      "Type": "AWS::CodePipeline::Pipeline",
+      "Properties": {
+        "RoleArn": {
+          "Ref": "CodePipelineServiceRole"
         },
-        "Stages":[
+        "Stages": [
           {
-            "Name":"Source",
-            "Actions":[
+            "Actions": [
               {
-                "InputArtifacts":[
+                "ActionTypeId": {
+                  "Category": "Source",
+                  "Owner": "ThirdParty",
+                  "Provider": "GitHub",
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "Branch": {
+                    "Ref": "Branch"
+                  },
+                  "OAuthToken": {
+                    "Ref": "GitHubToken"
+                  },
+                  "Owner": {
+                    "Ref": "GitHubUser"
+                  },
+                  "Repo": {
+                    "Ref": "Repo"
+                  }
+                },
+                "InputArtifacts": [
 
                 ],
-                "Name":"Source",
-                "ActionTypeId":{
-                  "Category":"Source",
-                  "Owner":"ThirdParty",
-                  "Version":"1",
-                  "Provider":"GitHub"
-                },
-                "OutputArtifacts":[
+                "Name": "Source",
+                "OutputArtifacts": [
                   {
-                    "Name":{
-                      "Ref":"MyInputArtifacts"
+                    "Name": {
+                      "Ref": "MyInputArtifacts"
                     }
                   }
                 ],
-                "Configuration":{
-                  "Owner":{
-                    "Ref":"GitHubUser"
-                  },
-                  "Repo":{
-                    "Ref":"Repo"
-                  },
-                  "Branch":{
-                    "Ref":"Branch"
-                  },
-                  "OAuthToken":{
-                    "Ref":"GitHubToken"
-                  }
-                },
-                "RunOrder":1
+                "RunOrder": 1
               },
               {
-                "InputArtifacts":[
-
-                ],
-                "Name":"PipelineSource",
-                "ActionTypeId":{
-                  "Category":"Source",
-                  "Owner":"ThirdParty",
-                  "Version":"1",
-                  "Provider":"GitHub"
+                "ActionTypeId": {
+                  "Category": "Source",
+                  "Owner": "ThirdParty",
+                  "Provider": "GitHub",
+                  "Version": "1"
                 },
-                "OutputArtifacts":[
-                  {
-                    "Name":"PipelineArtifact"
-                  }
-                ],
-                "Configuration":{
-                  "Owner": "stelligent",
-                  "Repo": "stelligent_pipelines",
+                "Configuration": {
                   "Branch": "master",
-                  "OAuthToken":{
-                    "Ref":"GitHubToken"
-                  }
+                  "OAuthToken": {
+                    "Ref": "GitHubToken"
+                  },
+                  "Owner": "stelligent",
+                  "Repo": "stelligent_pipelines"
                 },
-                "RunOrder":1
+                "InputArtifacts": [
+
+                ],
+                "Name": "PipelineSource",
+                "OutputArtifacts": [
+                  {
+                    "Name": "PipelineArtifact"
+                  }
+                ],
+                "RunOrder": 1
               }
-            ]
+            ],
+            "Name": "Source"
           },
           {
-            "Name":"Commit",
-            "Actions":[
+            "Actions": [
               {
-                "InputArtifacts":[
+                "ActionTypeId": {
+                  "Category": "Build",
+                  "Owner": "Custom",
+                  "Provider": {
+                    "Ref": "MyBuildProvider"
+                  },
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "ProjectName": "drom-build"
+                },
+                "InputArtifacts": [
                   {
-                    "Name":{
-                      "Ref":"MyInputArtifacts"
+                    "Name": {
+                      "Ref": "MyInputArtifacts"
                     }
                   },
                   {
                     "Name": "PipelineArtifact"
                   }
                 ],
-                "Name":"Build",
-                "ActionTypeId":{
-                  "Category":"Build",
-                  "Owner":"Custom",
-                  "Version":"1",
-                  "Provider":{
-                    "Ref":"MyBuildProvider"
-                  }
-                },
-                "OutputArtifacts":[
+                "Name": "Build",
+                "OutputArtifacts": [
                   {
-                    "Name":"DromedaryBuild"
+                    "Name": "DromedaryBuild"
                   }
                 ],
-                "Configuration":{
-                  "ProjectName":"drom-build"
-                },
-                "RunOrder":1
+                "RunOrder": 1
               },
               {
-                "InputArtifacts":[
+                "ActionTypeId": {
+                  "Category": "Test",
+                  "Owner": "Custom",
+                  "Provider": {
+                    "Ref": "MyBuildProvider"
+                  },
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "ProjectName": "drom-unit-test"
+                },
+                "InputArtifacts": [
                   {
-                    "Name":{
-                      "Ref":"MyInputArtifacts"
+                    "Name": {
+                      "Ref": "MyInputArtifacts"
                     }
                   },
                   {
                     "Name": "PipelineArtifact"
                   }
                 ],
-                "Name":"UnitTest",
-                "ActionTypeId":{
-                  "Category":"Test",
-                  "Owner":"Custom",
-                  "Version":"1",
-                  "Provider":{
-                    "Ref":"MyBuildProvider"
-                  }
-                },
-                "OutputArtifacts":[
+                "Name": "UnitTest",
+                "OutputArtifacts": [
 
                 ],
-                "Configuration":{
-                  "ProjectName":"drom-unit-test"
-                },
-                "RunOrder":1
+                "RunOrder": 1
               },
               {
-                "InputArtifacts":[
+                "ActionTypeId": {
+                  "Category": "Test",
+                  "Owner": "Custom",
+                  "Provider": {
+                    "Ref": "MyBuildProvider"
+                  },
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "ProjectName": "drom-staticcode-anal"
+                },
+                "InputArtifacts": [
                   {
-                    "Name":{
-                      "Ref":"MyInputArtifacts"
+                    "Name": {
+                      "Ref": "MyInputArtifacts"
                     }
                   },
                   {
                     "Name": "PipelineArtifact"
                   }
                 ],
-                "Name":"StaticCodeAnalysis",
-                "ActionTypeId":{
-                  "Category":"Test",
-                  "Owner":"Custom",
-                  "Version":"1",
-                  "Provider":{
-                    "Ref":"MyBuildProvider"
-                  }
-                },
-                "OutputArtifacts":[
+                "Name": "StaticCodeAnalysis",
+                "OutputArtifacts": [
 
                 ],
-                "Configuration":{
-                  "ProjectName":"drom-staticcode-anal"
-                },
-                "RunOrder":1
+                "RunOrder": 1
               },
               {
-                "InputArtifacts":[
+                "ActionTypeId": {
+                  "Category": "Test",
+                  "Owner": "Custom",
+                  "Provider": {
+                    "Ref": "MyBuildProvider"
+                  },
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "ProjectName": "drom-sec-static-anal"
+                },
+                "InputArtifacts": [
                   {
-                    "Name":{
-                      "Ref":"MyInputArtifacts"
+                    "Name": {
+                      "Ref": "MyInputArtifacts"
                     }
                   },
                   {
                     "Name": "PipelineArtifact"
                   }
                 ],
-                "Name":"SecStaticCodeAnalysis",
-                "ActionTypeId":{
-                  "Category":"Test",
-                  "Owner":"Custom",
-                  "Version":"1",
-                  "Provider":{
-                    "Ref":"MyBuildProvider"
-                  }
-                },
-                "OutputArtifacts":[
+                "Name": "SecStaticCodeAnalysis",
+                "OutputArtifacts": [
 
                 ],
-                "Configuration":{
-                  "ProjectName":"drom-sec-static-anal"
-                },
-                "RunOrder":1
+                "RunOrder": 1
               }
-            ]
+            ],
+            "Name": "Commit"
           },
           {
-            "Name":"Acceptance",
-            "Actions":[
+            "Actions": [
               {
-                "InputArtifacts":[
+                "ActionTypeId": {
+                  "Category": "Test",
+                  "Owner": "Custom",
+                  "Provider": {
+                    "Ref": "MyBuildProvider"
+                  },
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "ProjectName": "drom-create-env"
+                },
+                "InputArtifacts": [
                   {
-                    "Name":"DromedaryBuild"
+                    "Name": "DromedaryBuild"
                   }
                 ],
-                "Name":"CreateEnvironment",
-                "ActionTypeId":{
-                  "Category":"Test",
-                  "Owner":"Custom",
-                  "Version":"1",
-                  "Provider":{
-                    "Ref":"MyBuildProvider"
-                  }
-                },
-                "OutputArtifacts":[
+                "Name": "CreateEnvironment",
+                "OutputArtifacts": [
                   {
-                    "Name":"DromedaryCreate"
+                    "Name": "DromedaryCreate"
                   }
                 ],
-                "Configuration":{
-                  "ProjectName":"drom-create-env"
-                },
-                "RunOrder":1
+                "RunOrder": 1
               },
               {
-                "InputArtifacts":[
+                "ActionTypeId": {
+                  "Category": "Test",
+                  "Owner": "Custom",
+                  "Provider": {
+                    "Ref": "MyBuildProvider"
+                  },
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "ProjectName": "drom-acceptance-test"
+                },
+                "InputArtifacts": [
                   {
-                    "Name":"DromedaryCreate"
+                    "Name": "DromedaryCreate"
                   }
                 ],
-                "Name":"AcceptanceTest",
-                "ActionTypeId":{
-                  "Category":"Test",
-                  "Owner":"Custom",
-                  "Version":"1",
-                  "Provider":{
-                    "Ref":"MyBuildProvider"
-                  }
-                },
-                "OutputArtifacts":[
+                "Name": "AcceptanceTest",
+                "OutputArtifacts": [
                   {
-                    "Name":"DromedaryAccepted"
+                    "Name": "DromedaryAccepted"
                   }
                 ],
-                "Configuration":{
-                  "ProjectName":"drom-acceptance-test"
-                },
-                "RunOrder":2
+                "RunOrder": 2
               },
               {
-                "InputArtifacts":[
+                "ActionTypeId": {
+                  "Category": "Test",
+                  "Owner": "Custom",
+                  "Provider": {
+                    "Ref": "MyBuildProvider"
+                  },
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "ProjectName": "drom-pen-test"
+                },
+                "InputArtifacts": [
                   {
-                    "Name":"DromedaryCreate"
+                    "Name": "DromedaryCreate"
                   }
                 ],
-                "Name":"AutomatedPenTest",
-                "ActionTypeId":{
-                  "Category":"Test",
-                  "Owner":"Custom",
-                  "Version":"1",
-                  "Provider":{
-                    "Ref":"MyBuildProvider"
-                  }
-                },
-                "OutputArtifacts":[
+                "Name": "AutomatedPenTest",
+                "OutputArtifacts": [
                   {
-                    "Name":"DromedaryPenTest"
+                    "Name": "DromedaryPenTest"
                   }
                 ],
-                "Configuration":{
-                  "ProjectName":"drom-pen-test"
-                },
-                "RunOrder":2
-              },
-
-              {
-                "InputArtifacts":[
-                  {
-                    "Name":"DromedaryCreate"
-                  }
-                ],
-                "Name":"InfrastructureTest",
-                "ActionTypeId":{
-                  "Category":"Test",
-                  "Owner":"Custom",
-                  "Version":"1",
-                  "Provider":{
-                    "Ref":"MyBuildProvider"
-                  }
-                },
-                "OutputArtifacts":[
-                  {
-                    "Name":"DromedaryInfra"
-                  }
-                ],
-                "Configuration":{
-                  "ProjectName":"drom-infra-test"
-                },
-                "RunOrder":2
+                "RunOrder": 2
               },
               {
-                "InputArtifacts":[
+                "ActionTypeId": {
+                  "Category": "Test",
+                  "Owner": "Custom",
+                  "Provider": {
+                    "Ref": "MyBuildProvider"
+                  },
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "ProjectName": "drom-infra-test"
+                },
+                "InputArtifacts": [
                   {
-                    "Name":"DromedaryCreate"
+                    "Name": "DromedaryCreate"
                   }
                 ],
-                "Name":"SecurityIntegrationTest",
-                "ActionTypeId":{
-                  "Category":"Test",
-                  "Owner":"Custom",
-                  "Version":"1",
-                  "Provider":{
-                    "Ref":"MyBuildProvider"
-                  }
-                },
-                "OutputArtifacts":[
+                "Name": "InfrastructureTest",
+                "OutputArtifacts": [
                   {
-                    "Name":"DromedarySecure"
+                    "Name": "DromedaryInfra"
                   }
                 ],
-                "Configuration":{
-                  "ProjectName":"drom-sec-int-test"
-                },
-                "RunOrder":3
+                "RunOrder": 2
               },
-
               {
-                "InputArtifacts":[
+                "ActionTypeId": {
+                  "Category": "Test",
+                  "Owner": "Custom",
+                  "Provider": {
+                    "Ref": "MyBuildProvider"
+                  },
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "ProjectName": "drom-sec-int-test"
+                },
+                "InputArtifacts": [
                   {
-                    "Name":"DromedaryBuild"
+                    "Name": "DromedaryCreate"
                   }
                 ],
-                "Name":"TrustedAdvisor",
-                "ActionTypeId":{
-                  "Category":"Test",
-                  "Owner":"Custom",
-                  "Version":"1",
-                  "Provider":{
-                    "Ref":"MyBuildProvider"
+                "Name": "SecurityIntegrationTest",
+                "OutputArtifacts": [
+                  {
+                    "Name": "DromedarySecure"
                   }
+                ],
+                "RunOrder": 3
+              },
+              {
+                "ActionTypeId": {
+                  "Category": "Test",
+                  "Owner": "Custom",
+                  "Provider": {
+                    "Ref": "MyBuildProvider"
+                  },
+                  "Version": "1"
                 },
-                "Configuration":{
-                  "ProjectName":"drom-trusted-advisor"
-                }
+                "Configuration": {
+                  "ProjectName": "drom-trusted-advisor"
+                },
+                "InputArtifacts": [
+                  {
+                    "Name": "DromedaryBuild"
+                  }
+                ],
+                "Name": "TrustedAdvisor"
               }
-            ]
+            ],
+            "Name": "Acceptance"
           },
           {
-            "Name":"Production",
-            "Actions":[
+            "Actions": [
               {
-                "InputArtifacts":[
+                "ActionTypeId": {
+                  "Category": "Test",
+                  "Owner": "Custom",
+                  "Provider": {
+                    "Ref": "MyBuildProvider"
+                  },
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "ProjectName": "drom-promote-env"
+                },
+                "InputArtifacts": [
                   {
-                    "Name":"DromedaryAccepted"
+                    "Name": "DromedaryAccepted"
                   }
                 ],
-                "Name":"PromoteEnvironment",
-                "ActionTypeId":{
-                  "Category":"Test",
-                  "Owner":"Custom",
-                  "Version":"1",
-                  "Provider":{
-                    "Ref":"MyBuildProvider"
-                  }
-                },
-                "OutputArtifacts":[
+                "Name": "PromoteEnvironment",
+                "OutputArtifacts": [
 
                 ],
-                "Configuration":{
-                  "ProjectName":"drom-promote-env"
-                },
-                "RunOrder":1
+                "RunOrder": 1
               }
-            ]
+            ],
+            "Name": "Production"
           }
         ],
-        "ArtifactStore":{
-          "Type":"S3",
-          "Location":{
-            "Ref":"ArtifactStoreBucket"
-          }
+        "ArtifactStore": {
+          "Location": {
+            "Ref": "ArtifactStoreBucket"
+          },
+          "Type": "S3"
         }
       }
     }
   },
-  "Outputs":{
-    "StackName":{
-      "Value":{
-        "Ref":"AWS::StackName"
+  "Outputs": {
+    "StackName": {
+      "Value": {
+        "Ref": "AWS::StackName"
       }
     }
   }
